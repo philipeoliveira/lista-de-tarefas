@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta
+         name="description"
+         content="Sistema para anotações de tarefas em forma de lista."
+      />
+      <meta name="author" content="Philipe Oliveira" />
+
+      <link
+         rel="shortcut icon"
+         href="./images/favicon.ico"
+         type="image/x-icon"
+      />
+      <link rel="stylesheet" href="./css/styles.css" />
+      <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+         crossorigin="anonymous"
+         referrerpolicy="no-referrer"
+      />
+
+      <script src="./js/scripts.js" defer></script>
+
+      <title>Lista de Tarefas</title>
+   </head>
+   <body>
+      <div class="task-container">
+         <header>
+            <h1>
+               <img
+                  src="./images/logo-lista-tarefas.png"
+                  alt="Lista de Tarefas"
+               />
+            </h1>
+         </header>
+         <form id="form-add">
+            <div class="form-control">
+               <label for="input-add">Adicione a sua tarefa:</label>
+               <input
+                  type="text"
+                  id="input-add"
+                  placeholder="O que deseja anotar?"
+               />
+               <button type="submit">
+                  <i class="fa-solid fa-plus"></i>
+               </button>
+            </div>
+         </form>
+         <form id="form-edit">
+            <div class="form-control">
+               <label for="input-edit">Edite a sua tarefa:</label>
+               <input type="text" id="input-edit" />
+               <button type="submit">
+                  <i class="fa-solid fa-check-double"></i>
+               </button>
+            </div>
+            <button id="cancel-edit">Cancelar</button>
+         </form>
+         <div id="toolbar">
+            <form id="form-search">
+               <label for="input-search">Pesquisar:</label>
+               <input
+                  type="text"
+                  id="input-search"
+                  placeholder="Buscar tarefa"
+               />
+               <button id="erase-search">
+                  <i class="fa-solid fa-xmark"></i>
+               </button>
+            </form>
+            <form id="form-filter">
+               <label for="select-filter">Filtrar:</label>
+               <select id="select-filter">
+                  <option value="filter_all">Todas as tarefas</option>
+                  <option value="filter_done">Tarefas feitas</option>
+                  <option value="filter_todo">Tarefas a fazer</option>
+               </select>
+            </form>
+         </div>
+         <div id="task-list">
+            <div class="task-todo">
+               <h2>Estudar React JS</h2>
+               <button class="finish-todo">
+                  <i class="fa-solid fa-check"></i>
+               </button>
+               <button class="edit-todo">
+                  <i class="fa-solid fa-pen"></i>
+               </button>
+               <button class="delete-todo">
+                  <i class="fa-solid fa-trash"></i>
+               </button>
+            </div>
+            <div class="task-todo">
+               <h2>Estudar Python</h2>
+               <button class="finish-todo">
+                  <i class="fa-solid fa-check"></i>
+               </button>
+               <button class="edit-todo">
+                  <i class="fa-solid fa-pen"></i>
+               </button>
+               <button class="delete-todo">
+                  <i class="fa-solid fa-trash"></i>
+               </button>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
