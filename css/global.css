@@ -1,0 +1,308 @@
+/* FONT */
+@import url('https://fonts.googleapis.com/css2?family=KoHo:wght@500;600&display=swap');
+
+/* VARIABLES */
+:root {
+   --color-background-light: #fff;
+   --color-background-dark: #1f1510;
+   --color-bg-toggle: #fff;
+   --color-primary: #bb4444;
+   --color-secondary: #c3a38a;
+   --color-text: #654532;
+   --color-hover: #913535;
+
+   --size-xs: 0.5rem;
+   --size-xs-sm: 0.9rem;
+   --size-sm: 1rem;
+   --size-sm-md: 1.3rem;
+   --size-md: 1.5rem;
+   --size-md-lg: 1.8rem;
+   --size-lg: 2rem;
+   --size-xl: 2.5rem;
+}
+
+/* RESET */
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'KoHo', sans-serif;
+   font-weight: normal;
+   letter-spacing: -1px;
+   text-decoration: none;
+   list-style: none;
+   border: none;
+   outline: none;
+}
+
+/* SCROLLBAR */
+body::-webkit-scrollbar,
+body::-webkit-scrollbar-button {
+   width: 20px;
+   height: 10px;
+}
+body::-webkit-scrollbar-thumb {
+   background-color: var(--color-primary);
+   border: 5px solid var(--color-background-dark);
+   border-radius: 20px;
+}
+body::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:active {
+   background-color: var(--color-hover);
+}
+
+/* GLOBAL */
+body {
+   background-image: url('../images/bg-lista-tarefas.jpg');
+   background-color: var(--color-background-dark);
+   background-position: center;
+   background-size: cover;
+   color: var(--color-text);
+   padding: var(--size-lg) var(--size-md);
+}
+header {
+   display: grid;
+   grid-template-columns: 1fr 52px;
+   padding-bottom: var(--size-md-lg);
+   border-bottom: 1px dashed var(--color-text);
+}
+header h1 img {
+   max-width: calc(var(--size-lg) * 10);
+}
+main {
+   display: flex;
+   flex-direction: column;
+   gap: var(--size-md);
+   margin: var(--size-sm) 0;
+}
+h2 {
+   color: var(--color-text);
+   font-size: var(--size-lg);
+   font-weight: bold;
+   padding-bottom: var(--size-md);
+   border-bottom: 1px dashed var(--color-secondary);
+}
+h2 i {
+   color: var(--color-primary);
+   font-size: var(--size-md-lg);
+   margin-right: 5px;
+}
+h3 {
+   color: var(--color-background-dark);
+   font-size: var(--size-sm-md);
+   font-weight: bold;
+}
+footer p {
+   color: var(--color-secondary);
+   font-size: var(--size-xs-sm);
+   letter-spacing: 0;
+}
+
+/* LINK */
+a {
+   color: var(--color-primary);
+   transition: color 0.3s;
+}
+a:focus,
+a:hover,
+a:active {
+   color: var(--color-hover);
+   text-decoration: underline;
+}
+a[target='_blank'] i {
+   font-size: var(--size-xs-sm);
+   padding-left: 5px;
+}
+
+/* FORM */
+label {
+   display: inline-block;
+   font-size: var(--size-sm-md);
+   margin: var(--size-xs) 0;
+}
+input::placeholder {
+   color: var(--color-secondary);
+}
+input,
+select {
+   width: 100%;
+   border-bottom: 2px solid var(--color-primary);
+   background-color: transparent;
+   font-size: var(--size-sm);
+   letter-spacing: 0;
+   color: var(--color-primary);
+   padding: var(--size-xs);
+   transition: 0.3s;
+}
+input:hover,
+input:focus,
+input:active,
+select:hover,
+select:focus,
+select:active {
+   border-color: var(--color-hover);
+}
+label,
+select,
+button {
+   cursor: pointer;
+}
+button {
+   min-width: var(--size-lg);
+   min-height: var(--size-lg);
+   background-color: var(--color-primary);
+   font-family: 'KoHo', sans-serif;
+   font-size: var(--size-xs-sm);
+   font-weight: bold;
+   letter-spacing: 0;
+   color: var(--color-background-light);
+   border-radius: var(--size-xs);
+   transition: all 0.5s;
+}
+button:hover,
+button:focus {
+   background-color: var(--color-hover);
+   transform: translateY(-2px);
+}
+button i {
+   pointer-events: none;
+}
+button:hover i,
+button:focus i {
+   transform: scale(1.1);
+   transition: 0.2s;
+}
+form > button {
+   padding: var(--size-xs) var(--size-sm);
+   margin-top: var(--size-md);
+}
+
+/* ADDED GLOBALS */
+#task-container {
+   max-width: calc(var(--size-lg) * 23);
+   margin: 0 auto;
+   position: relative;
+   background-color: var(--color-bg-toggle);
+   padding: var(--size-md-lg) var(--size-lg);
+   box-shadow: 0 0 5px var(--color-background-dark);
+}
+#task-container::before,
+#task-container::after {
+   content: '';
+   width: 100%;
+   height: var(--size-md);
+   position: absolute;
+   transform: rotate(180deg);
+}
+#task-container::before {
+   top: -1rem;
+   right: 0;
+   background: linear-gradient(
+         135deg,
+         var(--color-bg-toggle) calc(var(--size-md) / 2),
+         transparent 0%
+      ),
+      linear-gradient(
+         -135deg,
+         var(--color-bg-toggle) calc(var(--size-md) / 2),
+         transparent 0%
+      );
+   background-size: var(--size-sm);
+}
+#task-container::after {
+   bottom: -1rem;
+   right: 0;
+   background: linear-gradient(
+         45deg,
+         var(--color-bg-toggle) calc(var(--size-md) / 2),
+         transparent 0%
+      ),
+      linear-gradient(
+         -45deg,
+         var(--color-bg-toggle) calc(var(--size-md) / 2),
+         transparent 0%
+      );
+   background-size: var(--size-sm);
+}
+.flex-col-center {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+.hide {
+   display: none;
+}
+.form-control {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: var(--size-xs);
+   position: relative;
+}
+#form-theme label {
+   width: 52px;
+   height: 28px;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   border: 1px solid var(--color-primary);
+   border-radius: 50px;
+   padding: 6px 9px 6px 5px;
+   position: relative;
+   transform: scale(0.8);
+}
+#form-theme label i {
+   color: var(--color-background-secondary);
+   font-size: var(--size-sm);
+}
+.theme-ball {
+   width: 22px;
+   height: 22px;
+   background-color: var(--color-primary);
+   border-radius: 50%;
+   position: absolute;
+   top: 2px;
+   left: 2px;
+   transition: transform 0.3s;
+}
+.theme-ball:focus,
+.theme-ball:hover {
+   background-color: var(--color-hover);
+}
+#toolbar {
+   display: flex;
+   gap: var(--size-lg);
+}
+#form-search,
+#form-filter {
+   flex: 1;
+}
+#form-search .form-control {
+   padding-right: var(--size-md-lg);
+   border-right: 1px dashed var(--color-secondary);
+}
+#task-list {
+   margin: var(--size-sm) 0;
+}
+.task-todo {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: var(--size-sm) 0;
+   border-bottom: 1px dashed var(--color-secondary);
+   gap: var(--size-md-lg);
+}
+.done h3 {
+   font-weight: normal;
+   text-decoration: line-through;
+}
+.done button {
+   background-color: transparent;
+   color: var(--color-primary);
+   border: 1px solid var(--color-primary);
+}
+.task-buttons {
+   display: flex;
+   gap: var(--size-xs);
+}

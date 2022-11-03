@@ -15,7 +15,7 @@
          href="./images/favicon.ico"
          type="image/x-icon"
       />
-      <link rel="stylesheet" href="./css/styles.css" />
+      <link rel="stylesheet" href="./css/global.css" />
       <link
          rel="stylesheet"
          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
@@ -24,90 +24,188 @@
          referrerpolicy="no-referrer"
       />
 
-      <script src="./js/scripts.js" defer></script>
+      <script src="./js/global.js" defer></script>
 
       <title>Lista de Tarefas</title>
    </head>
    <body>
-      <div class="task-container">
+      <div id="task-container">
          <header>
-            <h1>
+            <h1 class="flex-col-center">
                <img
-                  src="./images/logo-lista-tarefas.png"
+                  src="./images/logo-lista-de-tarefas.png"
                   alt="Lista de Tarefas"
                />
             </h1>
+            <form id="form-theme">
+               <label for="checkbox-theme" title="Trocar para tema escuro">
+                  <i class="fa-solid fa-sun"></i>
+                  <i class="fa-solid fa-moon"></i>
+                  <div class="theme-ball"></div>
+               </label>
+               <input type="checkbox" id="checkbox-theme" class="hide" />
+            </form>
          </header>
-         <form id="form-add">
-            <div class="form-control">
-               <label for="input-add">Adicione a sua tarefa:</label>
-               <input
-                  type="text"
-                  id="input-add"
-                  placeholder="O que deseja anotar?"
-               />
-               <button type="submit">
-                  <i class="fa-solid fa-plus"></i>
-               </button>
-            </div>
-         </form>
-         <form id="form-edit">
-            <div class="form-control">
-               <label for="input-edit">Edite a sua tarefa:</label>
-               <input type="text" id="input-edit" />
-               <button type="submit">
-                  <i class="fa-solid fa-check-double"></i>
-               </button>
-            </div>
-            <button id="cancel-edit">Cancelar</button>
-         </form>
-         <div id="toolbar">
-            <form id="form-search">
-               <label for="input-search">Pesquisar:</label>
-               <input
-                  type="text"
-                  id="input-search"
-                  placeholder="Buscar tarefa"
-               />
-               <button id="erase-search">
-                  <i class="fa-solid fa-xmark"></i>
+
+         <main>
+            <form id="form-add">
+               <label for="input-add">Adicione uma tarefa:</label>
+               <div class="form-control">
+                  <input
+                     type="text"
+                     id="input-add"
+                     placeholder="O que deseja anotar?"
+                     required
+                     maxlength="100"
+                     aria-required="true"
+                     aria-label="O que deseja anotar?"
+                  />
+                  <button type="submit" title="Adicionar tarefa">
+                     <i class="fa-solid fa-plus"></i>
+                  </button>
+               </div>
+            </form>
+
+            <form id="form-edit" class="hide">
+               <label for="input-edit">Edite a tarefa:</label>
+               <div class="form-control">
+                  <input type="text" id="input-edit" maxlength="100" />
+                  <button type="submit" title="Confirmar edição">
+                     <i class="fa-solid fa-check-double"></i>
+                  </button>
+               </div>
+               <button id="cancel-edit" title="Cancelar edição">
+                  Cancelar
                </button>
             </form>
-            <form id="form-filter">
-               <label for="select-filter">Filtrar:</label>
-               <select id="select-filter">
-                  <option value="filter_all">Todas as tarefas</option>
-                  <option value="filter_done">Tarefas feitas</option>
-                  <option value="filter_todo">Tarefas a fazer</option>
-               </select>
-            </form>
-         </div>
-         <div id="task-list">
-            <div class="task-todo">
-               <h2>Estudar React JS</h2>
-               <button class="finish-todo">
-                  <i class="fa-solid fa-check"></i>
-               </button>
-               <button class="edit-todo">
-                  <i class="fa-solid fa-pen"></i>
-               </button>
-               <button class="delete-todo">
-                  <i class="fa-solid fa-trash"></i>
-               </button>
+
+            <div id="toolbar">
+               <form id="form-search">
+                  <label for="input-search">Pesquisar:</label>
+                  <div class="form-control">
+                     <input
+                        type="text"
+                        id="input-search"
+                        placeholder="Buscar tarefa"
+                     />
+                     <button id="erase-search" title="Limpar pesquisa">
+                        <i class="fa-solid fa-xmark"></i>
+                     </button>
+                  </div>
+               </form>
+               <form id="form-filter">
+                  <label for="select-filter">Filtrar:</label>
+                  <div class="form-control">
+                     <select id="select-filter">
+                        <option value="filter_all">Todas as tarefas</option>
+                        <option value="filter_done">Tarefas feitas</option>
+                        <option value="filter_todo">Tarefas a fazer</option>
+                     </select>
+                  </div>
+               </form>
             </div>
-            <div class="task-todo">
-               <h2>Estudar Python</h2>
-               <button class="finish-todo">
-                  <i class="fa-solid fa-check"></i>
-               </button>
-               <button class="edit-todo">
-                  <i class="fa-solid fa-pen"></i>
-               </button>
-               <button class="delete-todo">
-                  <i class="fa-solid fa-trash"></i>
-               </button>
+
+            <div id="task-list">
+               <h2>
+                  <i class="fa-solid fa-list-check"></i>
+                  Todas as tarefas
+               </h2>
+               <div class="task-todo">
+                  <h3>Desenvolver mais projetos em ReactJS</h3>
+                  <ul class="task-buttons">
+                     <li>
+                        <button class="finish-todo" title="Finalizar tarefa">
+                           <i class="fa-solid fa-check"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="edit-todo" title="Editar tarefa">
+                           <i class="fa-solid fa-pen"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="delete-todo" title="Deletar tarefa">
+                           <i class="fa-solid fa-trash"></i>
+                        </button>
+                     </li>
+                  </ul>
+               </div>
+               <div class="task-todo done">
+                  <h3>
+                     Beber um café no intervalo do projeto Lista de Tarefas
+                  </h3>
+                  <ul class="task-buttons">
+                     <li>
+                        <button class="finish-todo" title="Finalizar tarefa">
+                           <i class="fa-solid fa-check"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="edit-todo" title="Editar tarefa">
+                           <i class="fa-solid fa-pen"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="delete-todo" title="Deletar tarefa">
+                           <i class="fa-solid fa-trash"></i>
+                        </button>
+                     </li>
+                  </ul>
+               </div>
+               <div class="task-todo">
+                  <h3>Estudar Língua Inglesa</h3>
+                  <ul class="task-buttons">
+                     <li>
+                        <button class="finish-todo" title="Finalizar tarefa">
+                           <i class="fa-solid fa-check"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="edit-todo" title="Editar tarefa">
+                           <i class="fa-solid fa-pen"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="delete-todo" title="Deletar tarefa">
+                           <i class="fa-solid fa-trash"></i>
+                        </button>
+                     </li>
+                  </ul>
+               </div>
+               <div class="task-todo">
+                  <h3>Segunda-feira me matricular na academia :)</h3>
+                  <ul class="task-buttons">
+                     <li>
+                        <button class="finish-todo" title="Finalizar tarefa">
+                           <i class="fa-solid fa-check"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="edit-todo" title="Editar tarefa">
+                           <i class="fa-solid fa-pen"></i>
+                        </button>
+                     </li>
+                     <li>
+                        <button class="delete-todo" title="Deletar tarefa">
+                           <i class="fa-solid fa-trash"></i>
+                        </button>
+                     </li>
+                  </ul>
+               </div>
             </div>
-         </div>
+         </main>
+
+         <footer class="flex-col-center">
+            <p>
+               Desenvolvido por
+               <a
+                  href="https://github.com/philipeoliveira"
+                  title="Abrir em nova aba o GitHub do autor Philipe Oliveira"
+                  target="_blank"
+                  >Philipe Oliveira</a
+               >
+            </p>
+         </footer>
       </div>
    </body>
 </html>
