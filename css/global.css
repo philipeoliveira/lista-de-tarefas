@@ -253,8 +253,11 @@ form > button {
    transform: scale(0.8);
 }
 #form-theme label i {
-   color: var(--color-background-secondary);
+   color: var(--color-background-dark);
    font-size: var(--size-sm);
+}
+#form-theme label i.fa-sun {
+   color: var(--color-secondary);
 }
 .theme-ball {
    width: 22px;
