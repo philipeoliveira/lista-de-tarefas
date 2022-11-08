@@ -3,12 +3,13 @@
 
 /* VARIABLES */
 :root {
-   --color-background-light: #fff;
-   --color-background-dark: #1f1510;
-   --color-bg-toggle: #fff;
+   --color-light: #fff;
+   --color-dark: #1f1510;
+   --color-bg-toggle: var(--color-light);
    --color-primary: #bb4444;
    --color-secondary: #c3a38a;
    --color-text: #654532;
+   --color-text-toggle: var(--color-dark);
    --color-hover: #913535;
 
    --size-xs: 0.5rem;
@@ -43,7 +44,7 @@ body::-webkit-scrollbar-button {
 }
 body::-webkit-scrollbar-thumb {
    background-color: var(--color-primary);
-   border: 5px solid var(--color-background-dark);
+   border: 5px solid var(--color-dark);
    border-radius: 20px;
 }
 body::-webkit-scrollbar-thumb:hover,
@@ -54,7 +55,7 @@ body::-webkit-scrollbar-thumb:active {
 /* GLOBAL */
 body {
    background-image: url('../images/bg-lista-tarefas.jpg');
-   background-color: var(--color-background-dark);
+   background-color: var(--color-dark);
    background-position: center;
    background-size: cover;
    color: var(--color-text);
@@ -88,7 +89,7 @@ h2 i {
    margin-right: 5px;
 }
 h3 {
-   color: var(--color-background-dark);
+   color: var(--color-text-toggle);
    font-size: var(--size-sm-md);
    font-weight: bold;
 }
@@ -155,20 +156,18 @@ button {
    font-size: var(--size-xs-sm);
    font-weight: bold;
    letter-spacing: 0;
-   color: var(--color-background-light);
+   color: var(--color-light);
    border-radius: var(--size-xs);
    transition: all 0.5s;
 }
-button:hover,
-button:focus {
+button:hover {
    background-color: var(--color-hover);
    transform: translateY(-2px);
 }
 button i {
    pointer-events: none;
 }
-button:hover i,
-button:focus i {
+button:hover i {
    transform: scale(1.1);
    transition: 0.2s;
 }
@@ -184,7 +183,7 @@ form > button {
    position: relative;
    background-color: var(--color-bg-toggle);
    padding: var(--size-md-lg) var(--size-lg);
-   box-shadow: 0 0 5px var(--color-background-dark);
+   box-shadow: 0 0 5px var(--color-dark);
 }
 #task-container::before,
 #task-container::after {
@@ -253,7 +252,7 @@ form > button {
    transform: scale(0.8);
 }
 #form-theme label i {
-   color: var(--color-background-dark);
+   color: var(--color-dark);
    font-size: var(--size-sm);
 }
 #form-theme label i.fa-sun {
@@ -288,24 +287,40 @@ form > button {
 #task-list {
    margin: var(--size-sm) 0;
 }
-.task-todo {
+.task {
    display: flex;
    align-items: center;
    justify-content: space-between;
    padding: var(--size-sm) 0;
    border-bottom: 1px dashed var(--color-secondary);
-   gap: var(--size-md-lg);
+   gap: var(--size-md);
+}
+.task span {
+   cursor: default;
+}
+.task h3 {
+   flex: 1;
+}
+.task-date-time {
+   font-size: calc(var(--size-xs) * 1.6);
+   text-align: center;
+}
+.task-buttons {
+   display: flex;
+   gap: var(--size-xs);
+}
+
+/* TASK DONE */
+.done .task-date-time {
+   opacity: 0.5;
 }
 .done h3 {
    font-weight: normal;
    text-decoration: line-through;
+   opacity: 0.5;
 }
 .done button {
    background-color: transparent;
    color: var(--color-primary);
    border: 1px solid var(--color-primary);
-}
-.task-buttons {
-   display: flex;
-   gap: var(--size-xs);
 }
