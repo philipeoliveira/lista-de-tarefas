@@ -37,20 +37,25 @@ const createItemWithButton = (className, title, text) => {
 };
 
 /**
- * CRIA TAREFA
+ * FORMATA DATETIME PARA O DATASET
  */
-const createTask = (text) => {
+const dateTimeForDataset = () => {
    const dateTime = [...currentDateTimeFormatted()];
 
    // tratamento no dateTime para criar dataset como id
    const dateString = dateTime[0].toString();
    const timeString = dateTime[1].toString();
-   const dataDateTime =
+   const dateTimeId =
       dateString.replace(/\//g, '') + timeString.replace(/:/g, '');
 
-   const task = document.createElement('div');
-   task.classList.add('task');
-   task.setAttribute('data-task-id', dataDateTime);
+   return dateTimeId;
+};
+
+/**
+ * FORMATA DATETIME PARA A TAREFA
+ */
+const dateTimeForTask = () => {
+   const dateTime = [...currentDateTimeFormatted()];
 
    const taskDateTime = document.createElement('span');
    taskDateTime.classList.add('task-date-time');
@@ -59,7 +64,19 @@ const createTask = (text) => {
       'title',
       `Criada em ${dateTime[0]} às ${dateTime[1]}`
    );
-   task.appendChild(taskDateTime);
+
+   return taskDateTime;
+};
+
+/**
+ * CRIA TAREFA
+ */
+const createTask = (text) => {
+   const task = document.createElement('div');
+   task.classList.add('task');
+
+   task.setAttribute('data-task-id', dateTimeForDataset());
+   task.appendChild(dateTimeForTask());
 
    const taskTitleEl = document.createElement('h3');
    taskTitleEl.innerHTML = text;
@@ -159,6 +176,14 @@ const updateTask = (text) => {
 
    allTasks.forEach((task) => {
       if (task.dataset.taskId === dataTaskId) {
+         // atribui um novo id para o dataset da task
+         task.setAttribute('data-task-id', dateTimeForDataset());
+
+         // remove a datetime de criação
+         task.removeChild(task.firstElementChild);
+         // insere a datetime atualizada
+         task.prepend(dateTimeForTask());
+
          task.querySelector('h3').innerText = text;
       }
    });
