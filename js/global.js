@@ -54,15 +54,17 @@ const dateTimeForDataset = () => {
 /**
  * FORMATA DATETIME PARA A TAREFA
  */
-const dateTimeForTask = () => {
+const dateTimeForTask = (usedForm) => {
    const dateTime = [...currentDateTimeFormatted()];
+
+   const addTxtDateTime = usedForm === formAdd.id ? 'Criada' : 'Atualizada';
 
    const taskDateTime = document.createElement('span');
    taskDateTime.classList.add('task-date-time');
    taskDateTime.innerHTML = `${dateTime[0]} <br> ${dateTime[1]}`;
    taskDateTime.setAttribute(
       'title',
-      `Criada em ${dateTime[0]} às ${dateTime[1]}`
+      `${addTxtDateTime} em ${dateTime[0]} às ${dateTime[1]}`
    );
 
    return taskDateTime;
@@ -71,12 +73,12 @@ const dateTimeForTask = () => {
 /**
  * CRIA TAREFA
  */
-const createTask = (text) => {
+const createTask = (text, usedForm) => {
    const task = document.createElement('div');
    task.classList.add('task');
 
    task.setAttribute('data-task-id', dateTimeForDataset());
-   task.appendChild(dateTimeForTask());
+   task.appendChild(dateTimeForTask(usedForm));
 
    const taskTitleEl = document.createElement('h3');
    taskTitleEl.innerHTML = text;
@@ -117,10 +119,12 @@ const createTask = (text) => {
 formAdd.addEventListener('submit', (event) => {
    event.preventDefault();
 
+   const usedForm = event.target.id;
+
    const inputAddValue = inputAdd.value;
 
    if (inputAddValue) {
-      createTask(inputAddValue);
+      createTask(inputAddValue, usedForm);
    }
 
    // limpa o campo
@@ -171,7 +175,7 @@ document.addEventListener('click', (event) => {
 /**
  * ATUALIZA TAREFA
  */
-const updateTask = (text) => {
+const updateTask = (text, usedForm) => {
    const allTasks = document.querySelectorAll('.task');
 
    allTasks.forEach((task) => {
@@ -182,7 +186,7 @@ const updateTask = (text) => {
          // remove a datetime de criação
          task.removeChild(task.firstElementChild);
          // insere a datetime atualizada
-         task.prepend(dateTimeForTask());
+         task.prepend(dateTimeForTask(usedForm));
 
          task.querySelector('h3').innerText = text;
       }
@@ -195,10 +199,12 @@ const updateTask = (text) => {
 formEdit.addEventListener('submit', (event) => {
    event.preventDefault();
 
+   const usedForm = event.target.id;
+
    const inputEditValue = inputEdit.value;
 
    if (inputEditValue) {
-      updateTask(inputEditValue);
+      updateTask(inputEditValue, usedForm);
    }
 
    toggleForms();
