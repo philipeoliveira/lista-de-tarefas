@@ -54,10 +54,11 @@ body::-webkit-scrollbar-thumb:active {
 
 /* GLOBAL */
 body {
-   background-image: url('../images/bg-lista-tarefas.jpg');
    background-color: var(--color-dark);
+   background-image: url('../images/bg-lista-tarefas.jpg');
    background-position: center;
    background-size: cover;
+   background-attachment: fixed;
    color: var(--color-text);
    padding: var(--size-lg) var(--size-md);
 }
