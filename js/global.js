@@ -8,9 +8,13 @@ const formSearch = document.querySelector('#form-search');
 const formFilter = document.querySelector('#form-filter');
 const taskList = document.querySelector('#task-list');
 
+let getId = localStorage.getItem('id');
+let getLastDateTime = localStorage.getItem('lastDateTime');
+let getTask = localStorage.getItem('task');
+
 // iniciadas para edição da tarefa
-let taskTitle;
-let dataTaskId;
+let taskTxt;
+let taskDataset;
 
 /**
  * ADICIONA ÍCONE AOS LINKS COM TARGET BLANK
@@ -39,9 +43,7 @@ const createItemWithButton = (className, title, text) => {
 /**
  * FORMATA DATETIME PARA O DATASET
  */
-const dateTimeForDataset = () => {
-   const dateTime = [...currentDateTimeFormatted()];
-
+const dateTimeForDataset = (dateTime) => {
    // tratamento no dateTime para criar dataset como id
    const dateString = dateTime[0].toString();
    const timeString = dateTime[1].toString();
@@ -54,9 +56,7 @@ const dateTimeForDataset = () => {
 /**
  * FORMATA DATETIME PARA A TAREFA
  */
-const dateTimeForTask = (usedForm) => {
-   const dateTime = [...currentDateTimeFormatted()];
-
+const dateTimeForTask = (usedForm, dateTime) => {
    const addTxtDateTime = usedForm === formAdd.id ? 'Criada' : 'Atualizada';
 
    const taskDateTime = document.createElement('span');
@@ -74,15 +74,17 @@ const dateTimeForTask = (usedForm) => {
  * CRIA TAREFA
  */
 const createTask = (text, usedForm) => {
-   const task = document.createElement('div');
-   task.classList.add('task');
+   const createTaskEl = document.createElement('div');
+   createTaskEl.classList.add('task');
 
-   task.setAttribute('data-task-id', dateTimeForDataset());
-   task.appendChild(dateTimeForTask(usedForm));
+   const dateTime = [...currentDateTimeFormatted()];
+
+   createTaskEl.setAttribute('data-task-id', dateTimeForDataset(dateTime));
+   createTaskEl.appendChild(dateTimeForTask(usedForm, dateTime));
 
    const taskTitleEl = document.createElement('h3');
    taskTitleEl.innerHTML = text;
-   task.appendChild(taskTitleEl);
+   createTaskEl.appendChild(taskTitleEl);
 
    const taskButtons = document.createElement('ul');
    taskButtons.classList.add('task-buttons');
@@ -109,8 +111,19 @@ const createTask = (text, usedForm) => {
       )
    );
 
-   task.appendChild(taskButtons);
-   taskList.appendChild(task);
+   createTaskEl.appendChild(taskButtons);
+   taskList.appendChild(createTaskEl);
+
+   saveToLocalStorage(dateTimeForDataset(dateTime), dateTime, text);
+};
+
+/**
+ * GRAVA NO LOCALSTORAGE ID, DATETIME E TAREFA
+ */
+const saveToLocalStorage = (id, lastDateTime, task) => {
+   localStorage.setItem('id', id);
+   localStorage.setItem('lastDateTime', lastDateTime);
+   localStorage.setItem('task', task);
 };
 
 /**
@@ -150,9 +163,9 @@ const toggleForms = () => {
 document.addEventListener('click', (event) => {
    const taskEl = event.target.closest('.task');
 
-   // armazena o título da tarefa
+   // armazena o texto do título da tarefa
    if (taskEl) {
-      taskTitle = taskEl.querySelector('h3').innerText;
+      taskTxt = taskEl.querySelector('h3').innerText;
    }
 
    // finaliza ou recupera a tarefa
@@ -174,8 +187,8 @@ document.addEventListener('click', (event) => {
    if (event.target.classList.contains('edit-task')) {
       toggleForms();
 
-      inputEdit.value = taskTitle;
-      dataTaskId = taskEl.dataset.taskId;
+      inputEdit.value = taskTxt;
+      taskDataset = taskEl.dataset.taskId;
    }
    // deleta a tarefa
    if (event.target.classList.contains('delete-task')) {
@@ -187,19 +200,23 @@ document.addEventListener('click', (event) => {
  * ATUALIZA TAREFA
  */
 const updateTask = (text, usedForm) => {
+   const dateTime = [...currentDateTimeFormatted()];
+
    const allTasks = document.querySelectorAll('.task');
 
    allTasks.forEach((task) => {
-      if (task.dataset.taskId === dataTaskId) {
+      if (task.dataset.taskId === taskDataset) {
          // atribui um novo id para o dataset da task
-         task.setAttribute('data-task-id', dateTimeForDataset());
+         task.setAttribute('data-task-id', dateTimeForDataset(dateTime));
 
-         // remove a datetime de criação
+         // remove a dateTime de criação
          task.removeChild(task.firstElementChild);
-         // insere a datetime atualizada
-         task.prepend(dateTimeForTask(usedForm));
+         // insere a dateTime atualizada
+         task.prepend(dateTimeForTask(usedForm, dateTime));
 
          task.querySelector('h3').innerText = text;
+
+         saveToLocalStorage(dateTimeForDataset(dateTime), dateTime, text);
       }
    });
 };
