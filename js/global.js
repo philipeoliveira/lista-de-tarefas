@@ -148,27 +148,38 @@ const toggleForms = () => {
  * AÇÕES DOS BOTÕES DA TAREFA
  */
 document.addEventListener('click', (event) => {
-   const task = event.target.closest('.task');
+   const taskEl = event.target.closest('.task');
 
    // armazena o título da tarefa
-   if (task) {
-      taskTitle = task.querySelector('h3').innerText;
+   if (taskEl) {
+      taskTitle = taskEl.querySelector('h3').innerText;
    }
 
    // finaliza ou recupera a tarefa
    if (event.target.classList.contains('finish-task')) {
-      task.classList.toggle('done');
+      taskEl.classList.toggle('done');
+
+      const iconEl = event.target.firstElementChild;
+      if (taskEl.classList.contains('done')) {
+         iconEl.classList.remove('fa-check');
+         iconEl.classList.add('fa-arrow-rotate-left');
+         event.target.setAttribute('title', 'Desmarcar tarefa finalizada');
+      } else {
+         iconEl.classList.remove('fa-arrow-rotate-left');
+         iconEl.classList.add('fa-check');
+         event.target.setAttribute('title', 'Finalizar tarefa');
+      }
    }
    // edita a tarefa
    if (event.target.classList.contains('edit-task')) {
       toggleForms();
 
       inputEdit.value = taskTitle;
-      dataTaskId = task.dataset.taskId;
+      dataTaskId = taskEl.dataset.taskId;
    }
    // deleta a tarefa
    if (event.target.classList.contains('delete-task')) {
-      task.remove();
+      taskEl.remove();
    }
 });
 
