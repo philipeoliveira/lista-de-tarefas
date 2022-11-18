@@ -1,18 +1,22 @@
 const formAdd = document.querySelector('#form-add');
 const inputAdd = document.querySelector('#input-add');
-const formAlert = document.querySelector('.form-alert');
+const alertAdd = document.querySelector('#alert-add');
+
 const formEdit = document.querySelector('#form-edit');
 const inputEdit = document.querySelector('#input-edit');
-const cancelEdit = document.querySelector('#cancel-edit');
+const alertEdit = document.querySelector('#alert-edit');
+const btnCancelEdit = document.querySelector('#cancel-edit');
+
 const formSearch = document.querySelector('#form-search');
 const formFilter = document.querySelector('#form-filter');
+
 const taskList = document.querySelector('#task-list');
 const taskMessage = document.querySelector('#task-message');
 
 // temporárias para edição e remoção de tarefa
-let taskTempText;
-let taskTempId;
-let taskTempIndex;
+let tempTaskText;
+let tempTaskId;
+let tempTaskIndex;
 
 /**
  * @desc Renderiza tarefa em tela com data e hora, texto da tarefa e botões
@@ -97,7 +101,7 @@ const clearRenderedTasks = () => {
  * @desc Lida com o retorno dos dados cadastrados, exibindo uma mensagem se não houver
  * @return {Array<string> | string} Retorna os dados do localStorage ou uma String com uma mensagem de aviso
  */
-const handleTaskRendering = () => {
+const rendersAllTasksOrMessage = () => {
    if (readData('tasks').length) {
       rendersAllTasks();
    } else {
@@ -158,11 +162,11 @@ formAdd.addEventListener('submit', (event) => {
 
       inputAdd.value = '';
       inputAdd.focus();
-      formAlert.innerText = '';
-   } else if (!formAlert.hasChildNodes()) {
+      alertAdd.innerText = '';
+   } else if (!alertAdd.hasChildNodes()) {
       // só exibe a mensagem se não estiver exibida
       createMessage(
-         formAlert,
+         alertAdd,
          'beforeend',
          '<i class="fa-solid fa-circle-exclamation"></i>',
          'Este campo deve conter no mínimo 3 caracteres'
@@ -194,25 +198,25 @@ document.addEventListener('click', (event) => {
    }
    // abre form para editar a tarefa
    if (event.target.classList.contains('edit-task')) {
-      taskTempText = taskEl.querySelector('h3').innerText;
-      inputEdit.value = taskTempText;
-      taskTempId = taskEl.dataset.taskId;
+      tempTaskText = taskEl.querySelector('h3').innerText;
+      inputEdit.value = tempTaskText;
+      tempTaskId = taskEl.dataset.taskId;
 
       toggleEditForm();
    }
    // deleta a tarefa
    if (event.target.classList.contains('delete-task')) {
       // obtém o id da tarefa clicada
-      taskTempId = taskEl.dataset.taskId;
+      tempTaskId = taskEl.dataset.taskId;
 
       // obtém o index do array que a tarefa está cadastrada
-      taskTempIndex = getIndexById(taskTempId);
+      tempTaskIndex = getIndexById(tempTaskId);
 
       // deleta a tarefa
-      deleteData(taskTempIndex, 'tasks');
+      deleteData(tempTaskIndex, 'tasks');
 
       clearRenderedTasks();
-      handleTaskRendering();
+      rendersAllTasksOrMessage();
    }
 });
 
@@ -223,31 +227,44 @@ formEdit.addEventListener('submit', (event) => {
    event.preventDefault();
 
    // obtém o index do array que a tarefa está cadastrada
-   taskTempIndex = getIndexById(taskTempId);
+   tempTaskIndex = getIndexById(tempTaskId);
 
    // novo texto para a tarefa
-   taskTxt = inputEdit.value;
+   const taskTxt = inputEdit.value.trim();
+   const taskTxtLength = inputEdit.value.length;
 
-   if (taskTempText) {
-      const taskId = dateTimeForId(currentDateTimeFormatted());
-      const lastDateTimeTask = currentDateTimeFormatted();
+   if (tempTaskText) {
+      if (taskTxt && taskTxtLength >= 3) {
+         const taskId = dateTimeForId(currentDateTimeFormatted());
+         const lastDateTimeTask = currentDateTimeFormatted();
 
-      updateData(taskTempIndex, 'tasks', {
-         taskId,
-         lastDateTimeTask,
-         taskTxt,
-      });
+         updateData(tempTaskIndex, 'tasks', {
+            taskId,
+            lastDateTimeTask,
+            taskTxt,
+         });
+
+         clearRenderedTasks();
+         rendersAllTasks();
+         toggleEditForm();
+
+         alertEdit.innerText = '';
+      } else if (!alertEdit.hasChildNodes()) {
+         // só exibe a mensagem se não estiver exibida
+         createMessage(
+            alertEdit,
+            'beforeend',
+            '<i class="fa-solid fa-circle-exclamation"></i>',
+            'Este campo deve conter no mínimo 3 caracteres'
+         );
+      }
    }
-
-   clearRenderedTasks();
-   rendersAllTasks();
-   toggleEditForm();
 });
 
 /**
  * Botão para cancelar a edição da tarefa
  */
-cancelEdit.addEventListener('click', (event) => {
+btnCancelEdit.addEventListener('click', (event) => {
    event.preventDefault();
 
    toggleEditForm();
@@ -255,5 +272,5 @@ cancelEdit.addEventListener('click', (event) => {
 
 // CARREGA AO INICIAR
 window.onload = () => {
-   handleTaskRendering();
+   rendersAllTasksOrMessage();
 };

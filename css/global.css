@@ -278,11 +278,13 @@ form > button {
 .theme-ball:hover {
    background-color: var(--color-hover);
 }
-.form-alert {
+#alert-add,
+#alert-edit {
    line-height: var(--size-lg);
    color: var(--color-primary);
 }
-.form-alert i {
+#alert-add i,
+#alert-edit i {
    font-size: var(--size-sm);
    color: var(--color-primary);
    margin-right: 6px;
