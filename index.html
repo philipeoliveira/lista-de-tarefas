@@ -24,9 +24,10 @@
          referrerpolicy="no-referrer"
       />
 
-      <script src="./js/global.js" defer></script>
+      <script src="./js/crudLocalstorage.js" defer></script>
       <script src="./js/themes.js" defer></script>
-      <script src="./js/currentDateTimeFormatted.js" defer></script>
+      <script src="./js/global.js" defer></script>
+      <script src="./js/tasks.js" defer></script>
 
       <title>Lista de Tarefas</title>
    </head>
@@ -66,6 +67,7 @@
                      <i class="fa-solid fa-plus"></i>
                   </button>
                </div>
+               <div class="form-alert"></div>
             </form>
 
             <form id="form-edit" class="hide">
@@ -112,34 +114,7 @@
                   <i class="fa-solid fa-list-check"></i>
                   Todas as tarefas
                </h2>
-               <div class="task" data-task-id="07112022151148">
-                  <span
-                     class="task-date-time"
-                     title="Criada em 07/11/2022 às 15:11:48"
-                     >07/11/2022 <br />
-                     15:11:48</span
-                  >
-                  <h3>
-                     Beber um café no intervalo do projeto Lista de Tarefas
-                  </h3>
-                  <ul class="task-buttons">
-                     <li>
-                        <button class="finish-task" title="Finalizar tarefa">
-                           <i class="fa-solid fa-check"></i>
-                        </button>
-                     </li>
-                     <li>
-                        <button class="edit-task" title="Editar tarefa">
-                           <i class="fa-solid fa-pen"></i>
-                        </button>
-                     </li>
-                     <li>
-                        <button class="delete-task" title="Deletar tarefa">
-                           <i class="fa-solid fa-trash"></i>
-                        </button>
-                     </li>
-                  </ul>
-               </div>
+               <h3 id="task-message"></h3>
             </div>
          </main>
 
