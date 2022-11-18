@@ -85,14 +85,19 @@ h2 {
    border-bottom: 1px dashed var(--color-secondary);
 }
 h2 i {
-   color: var(--color-primary);
    font-size: var(--size-md-lg);
+   color: var(--color-primary);
    margin-right: 5px;
 }
 h3 {
    color: var(--color-text-toggle);
    font-size: var(--size-sm-md);
    font-weight: bold;
+}
+h3 i {
+   font-size: var(--size-sm-md);
+   color: var(--color-primary);
+   margin-right: 10px;
 }
 footer p {
    color: var(--color-secondary);
@@ -273,6 +278,15 @@ form > button {
 .theme-ball:hover {
    background-color: var(--color-hover);
 }
+.form-alert {
+   line-height: var(--size-lg);
+   color: var(--color-primary);
+}
+.form-alert i {
+   font-size: var(--size-sm);
+   color: var(--color-primary);
+   margin-right: 6px;
+}
 #toolbar {
    display: flex;
    gap: var(--size-lg);
@@ -287,6 +301,10 @@ form > button {
 }
 #task-list {
    margin: var(--size-sm) 0;
+}
+#task-list > h3 {
+   line-height: calc(var(--size-lg) * 2);
+   color: var(--color-primary);
 }
 .task {
    display: flex;
@@ -320,7 +338,8 @@ form > button {
    text-decoration: line-through;
    opacity: 0.5;
 }
-.done button {
+.done button,
+#cancel-edit {
    background-color: transparent;
    color: var(--color-primary);
    border: 1px solid var(--color-primary);
