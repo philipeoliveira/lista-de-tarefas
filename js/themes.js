@@ -5,14 +5,14 @@ const taskContainer = document.querySelector('#task-container');
 const taskTodoH3 = document.querySelectorAll('.task h3');
 
 /**
- * DEFINE PROPRIEDADE NO BODY
+ * Define propriedade no body
  */
 const setPropertyInBody = (propertyName, value) => {
    document.body.style.setProperty(propertyName, value);
 };
 
 /**
- * MODIFICA O TEMA
+ * Modifica o tema
  */
 checkboxTheme.addEventListener('change', () => {
    // checked modifica para o tema escuro
