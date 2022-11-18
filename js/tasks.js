@@ -175,52 +175,6 @@ formAdd.addEventListener('submit', (event) => {
 });
 
 /**
- * Ações para os botões da tarefa
- */
-document.addEventListener('click', (event) => {
-   const taskEl = event.target.closest('.task');
-
-   // finaliza ou recupera a tarefa
-   if (event.target.classList.contains('finish-task')) {
-      taskEl.classList.toggle('done');
-
-      // troca o ícone
-      const iconEl = event.target.firstElementChild;
-      if (taskEl.classList.contains('done')) {
-         iconEl.classList.remove('fa-check');
-         iconEl.classList.add('fa-arrow-rotate-left');
-         event.target.setAttribute('title', 'Desmarcar tarefa finalizada');
-      } else {
-         iconEl.classList.remove('fa-arrow-rotate-left');
-         iconEl.classList.add('fa-check');
-         event.target.setAttribute('title', 'Finalizar tarefa');
-      }
-   }
-   // abre form para editar a tarefa
-   if (event.target.classList.contains('edit-task')) {
-      tempTaskText = taskEl.querySelector('h3').innerText;
-      inputEdit.value = tempTaskText;
-      tempTaskId = taskEl.dataset.taskId;
-
-      toggleEditForm();
-   }
-   // deleta a tarefa
-   if (event.target.classList.contains('delete-task')) {
-      // obtém o id da tarefa clicada
-      tempTaskId = taskEl.dataset.taskId;
-
-      // obtém o index do array que a tarefa está cadastrada
-      tempTaskIndex = getIndexById(tempTaskId);
-
-      // deleta a tarefa
-      deleteData(tempTaskIndex, 'tasks');
-
-      clearRenderedTasks();
-      rendersAllTasksOrMessage();
-   }
-});
-
-/**
  * Edita uma tarefa
  */
 formEdit.addEventListener('submit', (event) => {
@@ -268,6 +222,54 @@ btnCancelEdit.addEventListener('click', (event) => {
    event.preventDefault();
 
    toggleEditForm();
+});
+
+/**
+ * Ações para os botões da tarefa
+ */
+document.addEventListener('click', (event) => {
+   const taskEl = event.target.closest('.task');
+
+   // finaliza ou recupera a tarefa
+   if (event.target.classList.contains('finish-task')) {
+      taskEl.classList.toggle('done');
+
+      // troca o ícone
+      const iconEl = event.target.firstElementChild;
+      if (taskEl.classList.contains('done')) {
+         iconEl.classList.remove('fa-check');
+         iconEl.classList.add('fa-arrow-rotate-left');
+         event.target.setAttribute('title', 'Desmarcar tarefa finalizada');
+      } else {
+         iconEl.classList.remove('fa-arrow-rotate-left');
+         iconEl.classList.add('fa-check');
+         event.target.setAttribute('title', 'Finalizar tarefa');
+      }
+   }
+   // abre form para editar a tarefa
+   if (event.target.classList.contains('edit-task')) {
+      tempTaskText = taskEl.querySelector('h3').innerText;
+      inputEdit.value = tempTaskText;
+      tempTaskId = taskEl.dataset.taskId;
+
+      alertEdit.innerText = '';
+
+      toggleEditForm();
+   }
+   // deleta a tarefa
+   if (event.target.classList.contains('delete-task')) {
+      // obtém o id da tarefa clicada
+      tempTaskId = taskEl.dataset.taskId;
+
+      // obtém o index do array que a tarefa está cadastrada
+      tempTaskIndex = getIndexById(tempTaskId);
+
+      // deleta a tarefa
+      deleteData(tempTaskIndex, 'tasks');
+
+      clearRenderedTasks();
+      rendersAllTasksOrMessage();
+   }
 });
 
 // CARREGA AO INICIAR
