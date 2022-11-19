@@ -114,3 +114,13 @@ const dateTimeForText = (dateTime, separator, className) => {
 
    return dateTimeText;
 };
+
+/**
+ * @desc Converte a String recebida em Boolean
+ * @param {string} string String com o valor a ser convertido
+ * @return {boolean} Boolean convertido
+ */
+const stringToBoolean = (string) => {
+   let boolean = string === 'true' ? true : false;
+   return boolean;
+};

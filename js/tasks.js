@@ -13,7 +13,8 @@ const formFilter = document.querySelector('#form-filter');
 const taskList = document.querySelector('#task-list');
 const taskMessage = document.querySelector('#task-message');
 
-// temporárias para edição e remoção de tarefa
+// temporárias para finalização, edição e remoção de tarefa
+let tempTaskDone;
 let tempTaskText;
 let tempTaskId;
 let tempTaskIndex;
@@ -24,13 +25,19 @@ let tempTaskIndex;
  * @param {Array<string>} lastDateTimeTask Data e hora da criação ou última atualização da tarefa
  * @param {string} taskTxt Texto da tarefa
  */
-const renderTask = (taskId, lastDateTimeTask, taskTxt) => {
+const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    // cria elemento para tarefa
    const createTaskEl = document.createElement('div');
-   createTaskEl.classList.add('task');
+   // adiciona classes de tarefa ou tarefa concluída
+   taskDone === true
+      ? createTaskEl.classList.add('task', 'done')
+      : createTaskEl.classList.add('task');
 
    // inclui id recebido para a tarefa
    createTaskEl.setAttribute('data-task-id', taskId);
+
+   // inclui o status da tarefa
+   createTaskEl.setAttribute('data-task-done', taskDone);
 
    // adiciona dentro a data e hora recebidas
    createTaskEl.appendChild(
@@ -46,15 +53,19 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt) => {
    const taskButtons = document.createElement('ul');
    taskButtons.classList.add('task-buttons');
 
-   // cria botão Finalizar tarefa
+   // cria e adiciona botão Finalizar tarefa na lista
    const finishTaskBtn = createButton(
       'finish-task',
-      'Finalizar tarefa',
-      '<i class="fa-solid fa-check"></i>'
+      `${
+         taskDone === true ? 'Desmarcar tarefa finalizada' : 'Finalizar tarefa'
+      }`,
+      `<i class="fa-solid ${
+         taskDone === true ? 'fa-arrow-rotate-left' : 'fa-check'
+      }"></i>`
    );
    taskButtons.appendChild(createItemWithButton(finishTaskBtn));
 
-   // cria botão Editar tarefa
+   // cria e adiciona botão Editar tarefa na lista
    const editTaskBtn = createButton(
       'edit-task',
       'Editar tarefa',
@@ -62,7 +73,7 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt) => {
    );
    taskButtons.appendChild(createItemWithButton(editTaskBtn));
 
-   // cria botão Deletar tarefa
+   // cria e adiciona botão Deletar tarefa na lista
    const deleteTaskBtn = createButton(
       'delete-task',
       'Deletar tarefa',
@@ -83,7 +94,12 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt) => {
 const rendersAllTasks = () => {
    if (readData('tasks').length) {
       readData('tasks').forEach((task) => {
-         renderTask(task.taskId, task.lastDateTimeTask, task.taskTxt);
+         renderTask(
+            task.taskId,
+            task.lastDateTimeTask,
+            task.taskTxt,
+            task.taskDone
+         );
       });
    }
 };
@@ -153,8 +169,14 @@ formAdd.addEventListener('submit', (event) => {
    if (taskTxt && taskTxtLength >= 3) {
       const taskId = dateTimeForId(currentDateTimeFormatted());
       const lastDateTimeTask = currentDateTimeFormatted();
+      const taskDone = false;
 
-      createData('tasks', { taskId, lastDateTimeTask, taskTxt });
+      createData('tasks', {
+         taskId,
+         lastDateTimeTask,
+         taskTxt,
+         taskDone,
+      });
 
       taskMessage.innerText = '';
       clearRenderedTasks();
@@ -191,11 +213,13 @@ formEdit.addEventListener('submit', (event) => {
       if (taskTxt && taskTxtLength >= 3) {
          const taskId = dateTimeForId(currentDateTimeFormatted());
          const lastDateTimeTask = currentDateTimeFormatted();
+         const taskDone = tempTaskDone;
 
          updateData(tempTaskIndex, 'tasks', {
             taskId,
             lastDateTimeTask,
             taskTxt,
+            taskDone,
          });
 
          clearRenderedTasks();
@@ -232,30 +256,41 @@ document.addEventListener('click', (event) => {
 
    // finaliza ou recupera a tarefa
    if (event.target.classList.contains('finish-task')) {
-      taskEl.classList.toggle('done');
+      const taskId = dateTimeForId(currentDateTimeFormatted());
+      const lastDateTimeTask = currentDateTimeFormatted();
+      const taskTxt = taskEl.querySelector('h3').innerText;
+      let taskDone = stringToBoolean(taskEl.dataset.taskDone);
+      // inverte o status da tarefa
+      taskDone = !taskDone;
 
-      // troca o ícone
-      const iconEl = event.target.firstElementChild;
-      if (taskEl.classList.contains('done')) {
-         iconEl.classList.remove('fa-check');
-         iconEl.classList.add('fa-arrow-rotate-left');
-         event.target.setAttribute('title', 'Desmarcar tarefa finalizada');
-      } else {
-         iconEl.classList.remove('fa-arrow-rotate-left');
-         iconEl.classList.add('fa-check');
-         event.target.setAttribute('title', 'Finalizar tarefa');
-      }
+      // obtém o id da tarefa clicada
+      tempTaskId = taskEl.dataset.taskId;
+      // obtém o index do array que a tarefa está cadastrada
+      tempTaskIndex = getIndexById(tempTaskId);
+
+      updateData(tempTaskIndex, 'tasks', {
+         taskId,
+         lastDateTimeTask,
+         taskTxt,
+         taskDone,
+      });
+
+      clearRenderedTasks();
+      rendersAllTasks();
    }
+
    // abre form para editar a tarefa
    if (event.target.classList.contains('edit-task')) {
       tempTaskText = taskEl.querySelector('h3').innerText;
       inputEdit.value = tempTaskText;
       tempTaskId = taskEl.dataset.taskId;
+      tempTaskDone = stringToBoolean(taskEl.dataset.taskDone);
 
       alertEdit.innerText = '';
 
       toggleEditForm();
    }
+
    // deleta a tarefa
    if (event.target.classList.contains('delete-task')) {
       // obtém o id da tarefa clicada
