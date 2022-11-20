@@ -1,8 +1,6 @@
-const formThemeLabel = document.querySelector('#form-theme label');
-const checkboxTheme = document.querySelector('#checkbox-theme');
+const themeFormLabel = document.querySelector('#form-theme label');
+const themeCheckbox = document.querySelector('#theme-checkbox');
 const themeBall = document.querySelector('.theme-ball');
-const taskContainer = document.querySelector('#task-container');
-const taskTodoH3 = document.querySelectorAll('.task h3');
 
 /**
  * Define propriedade no body
@@ -12,21 +10,47 @@ const setPropertyInBody = (propertyName, value) => {
 };
 
 /**
+ * Define estilos e atributos para o tema Dark
+ */
+const selectedDarkTheme = () => {
+   themeBall.style.transform = 'translate(24px)';
+   themeFormLabel.setAttribute('title', 'Trocar para tema claro');
+
+   setPropertyInBody('--color-bg-toggle', 'var(--color-dark)');
+   setPropertyInBody('--color-text-toggle', 'var(--color-secondary)');
+};
+
+/**
+ * Define estilos e atributos para o tema Light
+ */
+const selectedLightTheme = () => {
+   themeBall.style.transform = 'translate(0)';
+   themeFormLabel.setAttribute('title', 'Trocar para tema escuro');
+
+   setPropertyInBody('--color-bg-toggle', 'var(--color-light)');
+   setPropertyInBody('--color-text-toggle', 'var(--color-dark)');
+};
+
+/**
+ * Define como o tema será iniciado
+ */
+let getTheme = getLocalStorage('themeDark');
+
+if (getTheme === 1) {
+   themeCheckbox.checked = true;
+   selectedDarkTheme();
+}
+
+/**
  * Modifica o tema
  */
-checkboxTheme.addEventListener('change', () => {
+themeCheckbox.addEventListener('change', () => {
    // checked modifica para o tema escuro
-   if (checkboxTheme.checked) {
-      themeBall.style.transform = 'translate(24px)';
-      formThemeLabel.setAttribute('title', 'Trocar para tema claro');
-
-      setPropertyInBody('--color-bg-toggle', 'var(--color-dark)');
-      setPropertyInBody('--color-text-toggle', 'var(--color-secondary)');
+   if (themeCheckbox.checked) {
+      setLocalStorage('themeDark', 1);
+      selectedDarkTheme();
    } else {
-      themeBall.style.transform = 'translate(0)';
-      formThemeLabel.setAttribute('title', 'Trocar para tema escuro');
-
-      setPropertyInBody('--color-bg-toggle', 'var(--color-light)');
-      setPropertyInBody('--color-text-toggle', 'var(--color-dark)');
+      setLocalStorage('themeDark', 0);
+      selectedLightTheme();
    }
 });

@@ -105,15 +105,6 @@ const rendersAllTasks = () => {
 };
 
 /**
- * @desc Limpa as tarefas já renderizadas na tela
- */
-const clearRenderedTasks = () => {
-   const renderedTasks = document.querySelectorAll('.task');
-
-   renderedTasks && renderedTasks.forEach((element) => element.remove());
-};
-
-/**
  * @desc Lida com o retorno dos dados cadastrados, exibindo uma mensagem se não houver
  * @return {Array<string> | string} Retorna os dados do localStorage ou uma String com uma mensagem de aviso
  */
@@ -128,6 +119,15 @@ const rendersAllTasksOrMessage = () => {
          'Nenhuma tarefa cadastrada...'
       );
    }
+};
+
+/**
+ * @desc Limpa as tarefas já renderizadas na tela
+ */
+const clearRenderedTasks = () => {
+   const renderedTasks = document.querySelectorAll('.task');
+
+   renderedTasks && renderedTasks.forEach((element) => element.remove());
 };
 
 /**
