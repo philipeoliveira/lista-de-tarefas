@@ -34,7 +34,7 @@ const selectedLightTheme = () => {
 /**
  * Define como o tema será iniciado
  */
-let getTheme = getLocalStorage('themeDark');
+let getTheme = getLocalStorage('darkTheme');
 
 if (getTheme === 1) {
    themeCheckbox.checked = true;
@@ -47,10 +47,10 @@ if (getTheme === 1) {
 themeCheckbox.addEventListener('change', () => {
    // checked modifica para o tema escuro
    if (themeCheckbox.checked) {
-      setLocalStorage('themeDark', 1);
+      setLocalStorage('darkTheme', 1);
       selectedDarkTheme();
    } else {
-      setLocalStorage('themeDark', 0);
+      setLocalStorage('darkTheme', 0);
       selectedLightTheme();
    }
 });

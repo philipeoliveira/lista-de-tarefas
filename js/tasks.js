@@ -41,7 +41,12 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
 
    // adiciona dentro a data e hora recebidas
    createTaskEl.appendChild(
-      dateTimeForText(lastDateTimeTask, '<br>', 'task-date-time')
+      dateTimeForText(
+         lastDateTimeTask,
+         '<br>',
+         'task-date-time',
+         checkModifiedTask(taskId, lastDateTimeTask)
+      )
    );
 
    // adiciona o texto recebido da tarefa
@@ -57,7 +62,9 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    const finishTaskBtn = createButton(
       'finish-task',
       `${
-         taskDone === true ? 'Desmarcar tarefa finalizada' : 'Finalizar tarefa'
+         taskDone === true
+            ? 'Desmarcar tarefa feita'
+            : 'Marcar tarefa como feita'
       }`,
       `<i class="fa-solid ${
          taskDone === true ? 'fa-arrow-rotate-left' : 'fa-check'
@@ -156,6 +163,19 @@ const toggleEditForm = () => {
    taskList.classList.toggle('hide');
 };
 
+/**
+ * @desc Verifica se uma tarefa foi modifica
+ * @param {string} taskId Id da tarefa (gerado a partir da data de criação)
+ * @param {Array<string>} lastDateTimeTask Data e hora da criação ou última atualização da tarefa
+ * @return {string} String 'Salva' ou 'Modificada'
+ */
+const checkModifiedTask = (taskId, lastDateTimeTask) => {
+   const createdWithId = taskId;
+   const lastDateTime = dateTimeForId(lastDateTimeTask);
+
+   return createdWithId === lastDateTime ? 'Salva' : 'Modificada';
+};
+
 // EVENTOS
 /**
  * Adiciona tarefa
@@ -211,7 +231,7 @@ formEdit.addEventListener('submit', (event) => {
 
    if (tempTaskText) {
       if (taskTxt && taskTxtLength >= 3) {
-         const taskId = dateTimeForId(currentDateTimeFormatted());
+         const taskId = tempTaskId;
          const lastDateTimeTask = currentDateTimeFormatted();
          const taskDone = tempTaskDone;
 
@@ -256,17 +276,16 @@ document.addEventListener('click', (event) => {
 
    // finaliza ou recupera a tarefa
    if (event.target.classList.contains('finish-task')) {
-      const taskId = dateTimeForId(currentDateTimeFormatted());
+      //const taskId = dateTimeForId(currentDateTimeFormatted());
+      const taskId = taskEl.dataset.taskId;
       const lastDateTimeTask = currentDateTimeFormatted();
       const taskTxt = taskEl.querySelector('h3').innerText;
       let taskDone = stringToBoolean(taskEl.dataset.taskDone);
       // inverte o status da tarefa
       taskDone = !taskDone;
 
-      // obtém o id da tarefa clicada
-      tempTaskId = taskEl.dataset.taskId;
       // obtém o index do array que a tarefa está cadastrada
-      tempTaskIndex = getIndexById(tempTaskId);
+      tempTaskIndex = getIndexById(taskId);
 
       updateData(tempTaskIndex, 'tasks', {
          taskId,

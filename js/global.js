@@ -100,7 +100,7 @@ const dateTimeForId = (dateTime) => {
  * @param {string} className String com o nome da classe css para estilizar a data e hora
  * @return {string} String com data e hora formatadas
  */
-const dateTimeForText = (dateTime, separator, className) => {
+const dateTimeForText = (dateTime, separator, className, titleTxt) => {
    const dateString = dateTime[0].toString();
    const timeString = dateTime[1].toString();
 
@@ -109,7 +109,7 @@ const dateTimeForText = (dateTime, separator, className) => {
    dateTimeText.innerHTML = dateString + separator + timeString;
    dateTimeText.setAttribute(
       'title',
-      `Salva em ${dateString} às ${timeString}`
+      `${titleTxt} em ${dateString} às ${timeString}`
    );
 
    return dateTimeText;
