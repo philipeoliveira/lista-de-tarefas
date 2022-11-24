@@ -10,6 +10,7 @@ const btnCancelEdit = document.querySelector('#cancel-edit');
 const formSearch = document.querySelector('#form-search');
 const formFilter = document.querySelector('#form-filter');
 
+const taskListContainer = document.querySelector('#task-list-container');
 const taskList = document.querySelector('#task-list');
 const taskMessage = document.querySelector('#task-message');
 
@@ -27,7 +28,7 @@ let tempTaskIndex;
  */
 const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    // cria elemento para tarefa
-   const createTaskEl = document.createElement('div');
+   const createTaskEl = document.createElement('li');
    // adiciona classes de tarefa ou tarefa concluída
    taskDone === true
       ? createTaskEl.classList.add('task', 'done')
@@ -160,7 +161,7 @@ const toggleEditForm = () => {
    formEdit.classList.toggle('hide');
    formSearch.classList.toggle('hide');
    formFilter.classList.toggle('hide');
-   taskList.classList.toggle('hide');
+   taskListContainer.classList.toggle('hide');
 };
 
 /**

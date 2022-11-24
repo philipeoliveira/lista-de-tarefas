@@ -302,10 +302,10 @@ form > button {
    padding-right: var(--size-md-lg);
    border-right: 1px dashed var(--color-secondary);
 }
-#task-list {
+#task-list-container {
    margin: var(--size-sm) 0;
 }
-#task-list > h3 {
+#task-list-container > h3 {
    line-height: calc(var(--size-lg) * 2);
    color: var(--color-primary);
 }
