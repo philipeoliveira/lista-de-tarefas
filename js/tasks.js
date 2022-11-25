@@ -40,13 +40,16 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    // inclui o status da tarefa
    createTaskEl.setAttribute('data-task-done', taskDone);
 
+   // personaliza texto para mensagem do title do datetime
+   let checkModified = checkModifiedTask(taskId, lastDateTimeTask);
+
    // adiciona dentro a data e hora recebidas
    createTaskEl.appendChild(
       dateTimeForText(
          lastDateTimeTask,
          '<br>',
          'task-date-time',
-         checkModifiedTask(taskId, lastDateTimeTask)
+         checkModified === true ? 'Modificada' : 'Salva'
       )
    );
 
@@ -168,13 +171,13 @@ const toggleEditForm = () => {
  * @desc Verifica se uma tarefa foi modifica
  * @param {string} taskId Id da tarefa (gerado a partir da data de criação)
  * @param {Array<string>} lastDateTimeTask Data e hora da criação ou última atualização da tarefa
- * @return {string} String 'Salva' ou 'Modificada'
+ * @return {boolean} Boolean
  */
 const checkModifiedTask = (taskId, lastDateTimeTask) => {
    const createdWithId = taskId;
    const lastDateTime = dateTimeForId(lastDateTimeTask);
 
-   return createdWithId === lastDateTime ? 'Salva' : 'Modificada';
+   return createdWithId != lastDateTime ? true : false;
 };
 
 // EVENTOS
