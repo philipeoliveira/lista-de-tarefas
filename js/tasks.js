@@ -14,11 +14,56 @@ const taskListContainer = document.querySelector('#task-list-container');
 const taskList = document.querySelector('#task-list');
 const taskMessage = document.querySelector('#task-message');
 
+let newTask;
+
 // temporárias para finalização, edição e remoção de tarefa
 let tempTaskDone;
 let tempTaskText;
 let tempTaskId;
 let tempTaskIndex;
+
+/**
+ * @desc Cria os botões para a tarefa
+ * @param {boolean} taskDone Boolean para informar se a tarefa está marcada como feita
+ * @return Elemento HTML de lista com os botões
+ */
+const taskButtons = (taskDone) => {
+   // cria lista para botões
+   const taskBtns = document.createElement('ul');
+   taskBtns.classList.add('task-buttons');
+
+   // cria e adiciona botão Finalizar tarefa na lista
+   const finishTaskBtn = createButton(
+      'finish-task',
+      `${
+         taskDone === true
+            ? 'Desmarcar tarefa feita'
+            : 'Marcar tarefa como feita'
+      }`,
+      `<i class="fa-solid ${
+         taskDone === true ? 'fa-arrow-rotate-left' : 'fa-check'
+      }"></i>`
+   );
+   taskBtns.appendChild(createItemWithButton(finishTaskBtn));
+
+   // cria e adiciona botão Editar tarefa na lista
+   const editTaskBtn = createButton(
+      'edit-task',
+      'Editar tarefa',
+      '<i class="fa-solid fa-pen"></i>'
+   );
+   taskBtns.appendChild(createItemWithButton(editTaskBtn));
+
+   // cria e adiciona botão Deletar tarefa na lista
+   const deleteTaskBtn = createButton(
+      'delete-task',
+      'Deletar tarefa',
+      '<i class="fa-solid fa-trash"></i>'
+   );
+   taskBtns.appendChild(createItemWithButton(deleteTaskBtn));
+
+   return taskBtns;
+};
 
 /**
  * @desc Renderiza tarefa em tela com data e hora, texto da tarefa e botões
@@ -58,42 +103,19 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    taskTitleEl.innerHTML = taskTxt;
    createTaskEl.appendChild(taskTitleEl);
 
-   // cria lista para botões
-   const taskButtons = document.createElement('ul');
-   taskButtons.classList.add('task-buttons');
-
-   // cria e adiciona botão Finalizar tarefa na lista
-   const finishTaskBtn = createButton(
-      'finish-task',
-      `${
-         taskDone === true
-            ? 'Desmarcar tarefa feita'
-            : 'Marcar tarefa como feita'
-      }`,
-      `<i class="fa-solid ${
-         taskDone === true ? 'fa-arrow-rotate-left' : 'fa-check'
-      }"></i>`
-   );
-   taskButtons.appendChild(createItemWithButton(finishTaskBtn));
-
-   // cria e adiciona botão Editar tarefa na lista
-   const editTaskBtn = createButton(
-      'edit-task',
-      'Editar tarefa',
-      '<i class="fa-solid fa-pen"></i>'
-   );
-   taskButtons.appendChild(createItemWithButton(editTaskBtn));
-
-   // cria e adiciona botão Deletar tarefa na lista
-   const deleteTaskBtn = createButton(
-      'delete-task',
-      'Deletar tarefa',
-      '<i class="fa-solid fa-trash"></i>'
-   );
-   taskButtons.appendChild(createItemWithButton(deleteTaskBtn));
+   // se for uma tarefa nova, não foi modificada
+   if (newTask === true) {
+      // informa que a tarefa é nova
+      createTaskEl.insertBefore(newTaskNotice(), taskTitleEl);
+      // remove a informação de nova tarefa depois de segundos
+      setTimeout(() => {
+         const newTaskEl = createTaskEl.querySelector('.new-task');
+         newTaskEl && newTaskEl.remove();
+      }, 5000);
+   }
 
    // adiciona lista de botões para a tarefa
-   createTaskEl.appendChild(taskButtons);
+   createTaskEl.appendChild(taskButtons(taskDone));
 
    // adiciona tarefa no elemento com todas as tarefas
    taskList.appendChild(createTaskEl);
@@ -116,20 +138,16 @@ const rendersAllTasks = () => {
 };
 
 /**
- * @desc Lida com o retorno dos dados cadastrados, exibindo uma mensagem se não houver
- * @return {Array<string> | string} Retorna os dados do localStorage ou uma String com uma mensagem de aviso
+ * @desc Mensagem de aviso quando não houver tarefa cadastrada
+ * @return HTML com mensagem de aviso
  */
-const rendersAllTasksOrMessage = () => {
-   if (readData('tasks').length) {
-      rendersAllTasks();
-   } else {
-      createMessage(
-         taskMessage,
-         'beforeend',
-         '<i class="fa-solid fa-face-sad-tear"></i>',
-         'Nenhuma tarefa cadastrada...'
-      );
-   }
+const noTaskRegistered = () => {
+   return createMessage(
+      taskMessage,
+      'beforeend',
+      '<i class="fa-solid fa-face-sad-tear"></i>',
+      'Nenhuma tarefa cadastrada...'
+   );
 };
 
 /**
@@ -180,6 +198,30 @@ const checkModifiedTask = (taskId, lastDateTimeTask) => {
    return createdWithId != lastDateTime ? true : false;
 };
 
+/**
+ * @desc Aviso de nova tarefa
+ * @return HTML com o aviso
+ */
+const newTaskNotice = () => {
+   const newTask = document.createElement('span');
+   newTask.classList.add('new-task');
+   newTask.innerHTML = 'nova';
+
+   return newTask;
+};
+
+/**
+ * @desc Remove todos os avisos de nova tarefa
+ */
+const removeTaskNotice = () => {
+   const allNewTaskEl = document.querySelectorAll('.new-task');
+   if (allNewTaskEl) {
+      for (task of allNewTaskEl) {
+         task.remove();
+      }
+   }
+};
+
 // EVENTOS
 /**
  * Adiciona tarefa
@@ -203,14 +245,15 @@ formAdd.addEventListener('submit', (event) => {
       });
 
       taskMessage.innerText = '';
-      clearRenderedTasks();
-      rendersAllTasks();
+
+      newTask = true;
+      renderTask(taskId, lastDateTimeTask, taskTxt, taskDone);
 
       inputAdd.value = '';
       inputAdd.focus();
       alertAdd.innerText = '';
-   } else if (!alertAdd.hasChildNodes()) {
       // só exibe a mensagem se não estiver exibida
+   } else if (!alertAdd.hasChildNodes()) {
       createMessage(
          alertAdd,
          'beforeend',
@@ -250,9 +293,12 @@ formEdit.addEventListener('submit', (event) => {
          rendersAllTasks();
          toggleEditForm();
 
+         // remove todas as informações de nova tarefa
+         removeTaskNotice();
+
          alertEdit.innerText = '';
-      } else if (!alertEdit.hasChildNodes()) {
          // só exibe a mensagem se não estiver exibida
+      } else if (!alertEdit.hasChildNodes()) {
          createMessage(
             alertEdit,
             'beforeend',
@@ -278,9 +324,8 @@ btnCancelEdit.addEventListener('click', (event) => {
 document.addEventListener('click', (event) => {
    const taskEl = event.target.closest('.task');
 
-   // finaliza ou recupera a tarefa
+   /* Finaliza ou recupera a tarefa */
    if (event.target.classList.contains('finish-task')) {
-      //const taskId = dateTimeForId(currentDateTimeFormatted());
       const taskId = taskEl.dataset.taskId;
       const lastDateTimeTask = currentDateTimeFormatted();
       const taskTxt = taskEl.querySelector('h3').innerText;
@@ -298,11 +343,32 @@ document.addEventListener('click', (event) => {
          taskDone,
       });
 
-      clearRenderedTasks();
-      rendersAllTasks();
+      // atualiza o dateTime na tela
+      const lastDateTimeTaskEl = taskEl.querySelector('.task-date-time');
+      const newLastDateTimeTask = dateTimeForText(
+         lastDateTimeTask,
+         '<br>',
+         'task-date-time',
+         'Modificada'
+      );
+      taskEl.replaceChild(newLastDateTimeTask, lastDateTimeTaskEl);
+
+      // atualiza os botões na tela
+      const taskButtonsEl = taskEl.querySelector('.task-buttons');
+      taskEl.replaceChild(taskButtons(taskDone), taskButtonsEl);
+
+      // adiciona classes de tarefa ou tarefa concluída
+      taskEl.classList.toggle('done');
+
+      // inclui o status da tarefa
+      taskEl.setAttribute('data-task-done', taskDone);
+
+      // remove a informação de nova tarefa
+      const newTaskEl = taskEl.querySelector('.new-task');
+      newTaskEl && newTaskEl.remove();
    }
 
-   // abre form para editar a tarefa
+   /* Abre form para editar a tarefa */
    if (event.target.classList.contains('edit-task')) {
       tempTaskText = taskEl.querySelector('h3').innerText;
       inputEdit.value = tempTaskText;
@@ -314,7 +380,7 @@ document.addEventListener('click', (event) => {
       toggleEditForm();
    }
 
-   // deleta a tarefa
+   /* Deleta a tarefa */
    if (event.target.classList.contains('delete-task')) {
       // obtém o id da tarefa clicada
       tempTaskId = taskEl.dataset.taskId;
@@ -325,12 +391,29 @@ document.addEventListener('click', (event) => {
       // deleta a tarefa
       deleteData(tempTaskIndex, 'tasks');
 
-      clearRenderedTasks();
-      rendersAllTasksOrMessage();
+      // efeitos para fechar tarefa antes de apagar da tela
+      taskEl.classList.add('close-task');
+
+      for (let i = 0; i < taskEl.childNodes.length; i++) {
+         let child = taskEl.childNodes[i];
+         child.classList.add('fade-out');
+      }
+
+      setTimeout(() => {
+         taskEl.remove();
+
+         if (!readData('tasks').length) {
+            noTaskRegistered();
+         }
+      }, 500);
    }
 });
 
 // CARREGA AO INICIAR
 window.onload = () => {
-   rendersAllTasksOrMessage();
+   if (readData('tasks').length) {
+      rendersAllTasks();
+   } else {
+      noTaskRegistered();
+   }
 };
