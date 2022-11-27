@@ -98,6 +98,7 @@ const dateTimeForId = (dateTime) => {
  * @param {Array<String>} dateTime Array com duas posições de data e hora
  * @param {string} separator String com o caractere escolhido para separar a data da hora
  * @param {string} className String com o nome da classe css para estilizar a data e hora
+ * @param {string} titleTxt Texto com o status da tarefa
  * @return {string} String com data e hora formatadas
  */
 const dateTimeForText = (dateTime, separator, className, titleTxt) => {
@@ -123,4 +124,30 @@ const dateTimeForText = (dateTime, separator, className, titleTxt) => {
 const stringToBoolean = (string) => {
    let boolean = string === 'true' ? true : false;
    return boolean;
+};
+
+/**
+ * COMPARA CAMPOS DE TEXTO DE OBJETOS,
+ * RETORNANDO EM ORDEM ALFABÉTICA
+ */
+/**
+ * @desc Compara campos de um array
+ * @param {array} array Array com os dados a serem ordenados
+ * @return {array} Array em ordem decrescente
+ */
+const descendingOrder = (array) => {
+   array.sort((objectA, objectB) => {
+      if (objectA.taskId > objectB.taskId) {
+         // ordena objectA para um índice anterior a objectB
+         return -1;
+      }
+      if (objectA.taskId < objectB.taskId) {
+         // ordena objectB para um índice anterior que objectA
+         return 1;
+      }
+      // deixa objectA e objectB inalterados um em relação ao outro
+      return 0;
+   });
+
+   return array;
 };

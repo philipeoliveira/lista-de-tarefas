@@ -103,6 +103,9 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    taskTitleEl.innerHTML = taskTxt;
    createTaskEl.appendChild(taskTitleEl);
 
+   // adiciona lista de botões para a tarefa
+   createTaskEl.appendChild(taskButtons(taskDone));
+
    // se for uma tarefa nova, não foi modificada
    if (newTask === true) {
       // informa que a tarefa é nova
@@ -112,21 +115,22 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
          const newTaskEl = createTaskEl.querySelector('.new-task');
          newTaskEl && newTaskEl.remove();
       }, 5000);
+
+      // adiciona tarefa antes da primeira já renderizada, para manter a ordenação
+      taskList.insertBefore(createTaskEl, taskList.firstChild);
+   } else {
+      // adiciona tarefa no elemento com todas as tarefas
+      taskList.appendChild(createTaskEl);
    }
-
-   // adiciona lista de botões para a tarefa
-   createTaskEl.appendChild(taskButtons(taskDone));
-
-   // adiciona tarefa no elemento com todas as tarefas
-   taskList.appendChild(createTaskEl);
 };
 
 /**
- * @desc Recebe todas as tarefas cadastradas e renderiza em tela
+ * @desc Recebe todas as tarefas cadastradas e renderiza em tela em ordem decrescente
  */
 const rendersAllTasks = () => {
    if (readData('tasks').length) {
-      readData('tasks').forEach((task) => {
+      const sortedData = descendingOrder(readData('tasks'));
+      sortedData.forEach((task) => {
          renderTask(
             task.taskId,
             task.lastDateTimeTask,
@@ -289,6 +293,7 @@ formEdit.addEventListener('submit', (event) => {
             taskDone,
          });
 
+         newTask = false;
          clearRenderedTasks();
          rendersAllTasks();
          toggleEditForm();
