@@ -109,11 +109,11 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    // se for uma tarefa nova, não foi modificada
    if (newTask === true) {
       // informa que a tarefa é nova
-      createTaskEl.insertBefore(newTaskNotice(), taskTitleEl);
+      createTaskEl.insertBefore(taskNotice(), taskTitleEl);
       // remove a informação de nova tarefa depois de segundos
       setTimeout(() => {
-         const newTaskEl = createTaskEl.querySelector('.new-task');
-         newTaskEl && newTaskEl.remove();
+         const taskNotice = createTaskEl.querySelector('.task-notice');
+         taskNotice && taskNotice.remove();
       }, 5000);
 
       // adiciona tarefa antes da primeira já renderizada, para manter a ordenação
@@ -206,21 +206,21 @@ const checkModifiedTask = (taskId, lastDateTimeTask) => {
  * @desc Aviso de nova tarefa
  * @return HTML com o aviso
  */
-const newTaskNotice = () => {
-   const newTask = document.createElement('span');
-   newTask.classList.add('new-task');
-   newTask.innerHTML = 'nova';
+const taskNotice = () => {
+   const taskNoticeEl = document.createElement('span');
+   taskNoticeEl.classList.add('task-notice');
+   taskNoticeEl.innerHTML = 'nova';
 
-   return newTask;
+   return taskNoticeEl;
 };
 
 /**
  * @desc Remove todos os avisos de nova tarefa
  */
 const removeTaskNotice = () => {
-   const allNewTaskEl = document.querySelectorAll('.new-task');
-   if (allNewTaskEl) {
-      for (task of allNewTaskEl) {
+   const allTaskNotices = document.querySelectorAll('.task-notice');
+   if (allTaskNotices) {
+      for (task of allTaskNotices) {
          task.remove();
       }
    }
@@ -369,8 +369,8 @@ document.addEventListener('click', (event) => {
       taskEl.setAttribute('data-task-done', taskDone);
 
       // remove a informação de nova tarefa
-      const newTaskEl = taskEl.querySelector('.new-task');
-      newTaskEl && newTaskEl.remove();
+      const taskNotice = taskEl.querySelector('.task-notice');
+      taskNotice && taskNotice.remove();
    }
 
    /* Abre form para editar a tarefa */
