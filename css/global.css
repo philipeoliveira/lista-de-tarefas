@@ -184,6 +184,10 @@ form > button {
 }
 
 /* ADDED GLOBALS */
+.dark-theme {
+   --color-bg-toggle: var(--color-dark);
+   --color-text-toggle: var(--color-secondary);
+}
 #task-container {
    max-width: calc(var(--size-lg) * 23);
    margin: 0 auto;

@@ -3,21 +3,13 @@ const themeCheckbox = document.querySelector('#theme-checkbox');
 const themeBall = document.querySelector('.theme-ball');
 
 /**
- * Define propriedade no body
- */
-const setPropertyInBody = (propertyName, value) => {
-   document.body.style.setProperty(propertyName, value);
-};
-
-/**
  * Define estilos e atributos para o tema Dark
  */
 const selectedDarkTheme = () => {
    themeBall.style.transform = 'translate(24px)';
    themeFormLabel.setAttribute('title', 'Trocar para tema claro');
 
-   setPropertyInBody('--color-bg-toggle', 'var(--color-dark)');
-   setPropertyInBody('--color-text-toggle', 'var(--color-secondary)');
+   document.body.classList.toggle('dark-theme');
 };
 
 /**
@@ -27,8 +19,7 @@ const selectedLightTheme = () => {
    themeBall.style.transform = 'translate(0)';
    themeFormLabel.setAttribute('title', 'Trocar para tema escuro');
 
-   setPropertyInBody('--color-bg-toggle', 'var(--color-light)');
-   setPropertyInBody('--color-text-toggle', 'var(--color-dark)');
+   document.body.classList.toggle('dark-theme');
 };
 
 /**
