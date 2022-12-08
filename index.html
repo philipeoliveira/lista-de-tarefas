@@ -24,8 +24,9 @@
          referrerpolicy="no-referrer"
       />
 
-      <script src="./js/crudLocalstorage.js" defer></script>
+      <script src="./js/crud-localstorage.js" defer></script>
       <script src="./js/themes.js" defer></script>
+      <script src="./js/filter-select-options.js" defer></script>
       <script src="./js/global.js" defer></script>
       <script src="./js/tasks.js" defer></script>
 
@@ -75,7 +76,7 @@
                <div class="form-control">
                   <input type="text" id="input-edit" maxlength="100" />
                   <button type="submit" title="Confirmar edição">
-                     <i class="fa-solid fa-check-double"></i>
+                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
                </div>
                <div id="alert-edit"></div>
@@ -92,30 +93,25 @@
                         type="text"
                         id="input-search"
                         placeholder="Buscar tarefa"
+                        maxlength="100"
                      />
-                     <button id="erase-search" title="Limpar pesquisa">
-                        <i class="fa-solid fa-xmark"></i>
+
+                     <button title="Limpar pesquisa">
+                        <i class="fa-solid fa-magnifying-glass"></i>
                      </button>
                   </div>
+                  <div id="alert-search"></div>
                </form>
                <form id="form-filter">
                   <label for="select-filter">Filtrar:</label>
                   <div class="form-control">
-                     <select id="select-filter">
-                        <option value="filter_all">Todas as tarefas</option>
-                        <option value="filter_done">Tarefas feitas</option>
-                        <option value="filter_todo">Tarefas a fazer</option>
-                     </select>
+                     <select id="select-filter"></select>
                   </div>
                </form>
             </div>
 
             <div id="task-list-container">
-               <h2>
-                  <i class="fa-solid fa-list-check"></i>
-                  Todas as tarefas
-               </h2>
-               <h3 id="task-message"></h3>
+               <h2><i class="fa-solid fa-list-check"></i>Todas as tarefas</h2>
                <ul id="task-list"></ul>
             </div>
          </main>
