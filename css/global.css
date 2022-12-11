@@ -31,6 +31,7 @@
    font-family: 'KoHo', sans-serif;
    font-weight: normal;
    letter-spacing: -1px;
+   word-break: break-word;
    text-decoration: none;
    list-style: none;
    border: none;
@@ -82,9 +83,6 @@ h2 {
    color: var(--color-text);
    font-size: var(--size-lg);
    font-weight: bold;
-   padding-bottom: var(--size-md);
-   border-bottom: 1px dashed var(--color-secondary);
-   animation: fade-in 700ms ease-in;
 }
 h2 i {
    font-size: var(--size-md-lg);
@@ -313,9 +311,24 @@ form > button {
 #task-list-container {
    margin: var(--size-sm) 0;
 }
-#task-list-container > h3 {
-   line-height: calc(var(--size-lg) * 2);
-   color: var(--color-primary);
+#task-list-info {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: var(--size-sm) 0;
+   padding-bottom: var(--size-md);
+   border-bottom: 1px dashed var(--color-secondary);
+   gap: var(--size-md);
+}
+#task-list-info h2,
+#task-list-info p {
+   animation: fade-in 700ms ease-in;
+}
+#task-list-info p {
+   font-weight: bold;
+}
+#task-list-info p span {
+   font-weight: normal;
 }
 .task {
    display: flex;
@@ -338,7 +351,7 @@ form > button {
 .task span.task-date-time {
    cursor: default;
 }
-.task-message-in-out {
+.message-in-out-task {
    display: flex;
    align-items: center;
    justify-content: center;
@@ -347,9 +360,8 @@ form > button {
 
    left: 50%;
    margin-left: calc(calc(var(--size-xs) * 3) * -1);
-   width: calc(var(--size-xs) * 6);
 
-   padding: 1px;
+   padding: 2px var(--size-xs);
    border-radius: 0 0 5px 5px;
    background-color: var(--color-primary);
    color: var(--color-light);
@@ -364,7 +376,10 @@ form > button {
 }
 .task h3 {
    flex: 1;
-   word-break: break-word;
+}
+.message-for-no-task {
+   padding: var(--size-sm-md) 0;
+   color: var(--color-primary);
 }
 #message-for-no-task {
    animation: render-task 700ms ease-in;
@@ -442,7 +457,7 @@ form > button {
    }
 }
 .fade-out {
-   animation: fade-out 500ms cubic-bezier(0.35, 0.1, 0.4, 1);
+   animation: fade-out 400ms cubic-bezier(0.35, 0.1, 0.4, 1);
 }
 
 @keyframes render-task {

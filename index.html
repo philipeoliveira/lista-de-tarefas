@@ -26,8 +26,9 @@
 
       <script src="./js/crud-localstorage.js" defer></script>
       <script src="./js/themes.js" defer></script>
-      <script src="./js/filter-select-options.js" defer></script>
       <script src="./js/global.js" defer></script>
+      <script src="./js/filter-tasks.js" defer></script>
+      <script src="./js/search-tasks.js" defer></script>
       <script src="./js/tasks.js" defer></script>
 
       <title>Lista de Tarefas</title>
@@ -96,22 +97,26 @@
                         maxlength="100"
                      />
 
-                     <button title="Limpar pesquisa">
+                     <button title="Pesquisar">
                         <i class="fa-solid fa-magnifying-glass"></i>
                      </button>
                   </div>
-                  <div id="alert-search"></div>
                </form>
                <form id="form-filter">
                   <label for="select-filter">Filtrar:</label>
                   <div class="form-control">
-                     <select id="select-filter"></select>
+                     <select name="select-filter" id="select-filter"></select>
                   </div>
                </form>
             </div>
 
             <div id="task-list-container">
-               <h2><i class="fa-solid fa-list-check"></i>Todas as tarefas</h2>
+               <div id="task-list-info">
+                  <h2>
+                     <i class="fa-solid fa-list-check"></i>Todas as tarefas
+                  </h2>
+                  <p></p>
+               </div>
                <ul id="task-list"></ul>
             </div>
          </main>
