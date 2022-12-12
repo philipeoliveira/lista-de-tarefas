@@ -94,7 +94,7 @@ const rendersAllTasks = (searchTxt) => {
       );
 
       iconClass = 'fa-circle-xmark';
-      messageTxt = `Nenhuma tarefa encontrada ao pesquisar por '<strong> ${searchTxt} </strong>'</span>`;
+      messageTxt = `Nenhuma tarefa localizada ao pesquisar por '<strong> ${searchTxt} </strong>'</span>`;
 
       inputSearch.value = searchTxt;
    } else {
@@ -127,7 +127,7 @@ const rendersAllTasks = (searchTxt) => {
             `${handleTotalTasksFound(tempTotalTasksFound)}`
          );
          iconClass = 'fa-circle-xmark';
-         messageTxt = 'Nenhuma tarefa encontrada...';
+         messageTxt = 'Nenhuma tarefa cadastrada...';
       }
 
       inputSearch.value = '';
