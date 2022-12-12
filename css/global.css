@@ -71,6 +71,7 @@ header {
    border-bottom: 1px dashed var(--color-text);
 }
 header h1 img {
+   width: 80%;
    max-width: calc(var(--size-lg) * 10);
 }
 main {
