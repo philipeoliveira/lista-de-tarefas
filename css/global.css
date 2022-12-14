@@ -359,8 +359,7 @@ form > button {
    position: absolute;
    top: 0;
 
-   left: 50%;
-   margin-left: calc(calc(var(--size-xs) * 3) * -1);
+   left: calc(50% - var(--size-md-lg));
 
    padding: 2px var(--size-xs);
    border-radius: 0 0 5px 5px;
