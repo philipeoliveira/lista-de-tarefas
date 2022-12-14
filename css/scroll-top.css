@@ -1,0 +1,45 @@
+#scroll-top button {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: fixed;
+   bottom: -85px;
+   left: calc(50% - var(--size-xs-sm));
+   width: 0;
+   height: 0;
+   border-radius: 50%;
+   z-index: 1000;
+   visibility: hidden;
+   opacity: 0;
+   transition: 0.3s;
+   font-size: 150%;
+}
+#scroll-top button.btn-scroll-top {
+   bottom: 85px;
+   left: calc(50% - (calc(var(--size-xl) / 2)));
+   width: var(--size-xl);
+   height: var(--size-xl);
+   visibility: visible;
+   opacity: 0.9;
+}
+#scroll-top button.btn-scroll-top:hover {
+   animation: pulse-up 3s infinite;
+   opacity: 1;
+}
+
+@keyframes pulse-up {
+   0% {
+      transform: translateY(0);
+   }
+   10%,
+   30%,
+   50% {
+      transform: translateY(-0.2rem);
+   }
+   20%,
+   40%,
+   70%,
+   100% {
+      transform: translateY(0);
+   }
+}
