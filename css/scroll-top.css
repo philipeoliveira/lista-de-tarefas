@@ -3,7 +3,7 @@
    align-items: center;
    justify-content: center;
    position: fixed;
-   bottom: -85px;
+   bottom: -40px;
    left: calc(50% - var(--size-xs-sm));
    width: 0;
    height: 0;
