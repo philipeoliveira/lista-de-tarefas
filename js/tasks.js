@@ -1,3 +1,7 @@
+const taskContainer = document.querySelector('#task-container');
+const themeForm = document.querySelector('#form-theme');
+const scrollTop = document.querySelector('#scroll-top');
+
 const formAdd = document.querySelector('#form-add');
 const inputAdd = document.querySelector('#input-add');
 const alertAdd = document.querySelector('#alert-add');
@@ -7,6 +11,8 @@ const inputEdit = document.querySelector('#input-edit');
 const alertEdit = document.querySelector('#alert-edit');
 const btnCancelEdit = document.querySelector('#cancel-edit');
 
+const toolbar = document.querySelector('#toolbar');
+
 const formSearch = document.querySelector('#form-search');
 const inputSearch = document.querySelector('#input-search');
 
@@ -15,7 +21,10 @@ const selectFilter = document.querySelector('#select-filter');
 
 const taskListContainer = document.querySelector('#task-list-container');
 const taskListInfo = document.querySelector('#task-list-info');
+const printTasksButton = document.querySelector('#print-tasks');
+const saveTaskButton = document.querySelector('#save-task');
 const taskList = document.querySelector('#task-list');
+const exitPrintMode = document.querySelector('#exit-print-mode');
 
 // temporárias para a busca e o filtro
 let tempFilterValue = filterOptions[0].optionValue;
@@ -208,7 +217,7 @@ const replaceTitle = (iconClass, titleText, listDetails) => {
    const newTitle = document.createElement('h2');
    newTitle.innerHTML = `<i class="${iconClass}"></i>${titleText}`;
 
-   taskListInfo.replaceChild(newTitle, currentTitle);
+   taskListContainer.replaceChild(newTitle, currentTitle);
 
    const currentDetails = document.querySelector('#task-list-container p');
    const newDetails = document.createElement('p');
@@ -220,8 +229,8 @@ const replaceTitle = (iconClass, titleText, listDetails) => {
 // verifica se o texto do total de tarefas retornará no singular ou plural
 const handleTotalTasksFound = (tempTotalTasksFound) => {
    return tempTotalTasksFound <= 1
-      ? `${tempTotalTasksFound} localizada`
-      : `${tempTotalTasksFound} localizadas`;
+      ? `<i class="fa-solid fa-location-crosshairs"></i> ${tempTotalTasksFound} tarefa localizada`
+      : `<i class="fa-solid fa-location-crosshairs"></i> ${tempTotalTasksFound} tarefas localizadas`;
 };
 
 // Cria os botões para a tarefa
@@ -300,9 +309,30 @@ const replaceMessageNoTaskRegistered = (iconClass, messageTxt) => {
 const toggleEditForm = () => {
    formAdd.classList.toggle('hide');
    formEdit.classList.toggle('hide');
-   formSearch.classList.toggle('hide');
-   formFilter.classList.toggle('hide');
+   toolbar.parentNode.classList.toggle('hide');
    taskListContainer.classList.toggle('hide');
+};
+
+/**
+ * @desc Alterna entre mostrar a página com a versão para impressão ou voltar para página completa
+ */
+const togglePrint = () => {
+   taskContainer.classList.toggle('shadow');
+   themeForm.parentNode.classList.toggle('header-for-print');
+   themeForm.classList.toggle('hide');
+   formAdd.classList.toggle('hide');
+   toolbar.parentNode.classList.toggle('hide');
+   printTasksButton.classList.toggle('hide');
+   saveTaskButton.classList.toggle('hide');
+   scrollTop.classList.toggle('hide');
+
+   const allTaskButtonLists = document.querySelectorAll('.task ul');
+   allTaskButtonLists.forEach((list) => {
+      list.classList.toggle('task-buttons');
+      list.classList.toggle('hide');
+   });
+
+   exitPrintMode.parentNode.classList.toggle('hide');
 };
 
 // EVENTOS
@@ -388,6 +418,43 @@ formEdit.addEventListener('submit', (event) => {
 });
 
 /**
+ * Procurar tarefa
+ */
+formSearch.addEventListener('submit', (event) => {
+   event.preventDefault();
+
+   let searchTxt = inputSearch.value;
+
+   rendersAllTasks(searchTxt);
+
+   inputSearch.focus();
+});
+
+/**
+ * Filtrar tarefas
+ */
+selectFilter.addEventListener('change', (event) => {
+   tempFilterValue = event.target.value;
+
+   rendersAllTasks();
+});
+
+/**
+ * Imprimir tarefas
+ */
+printTasksButton.addEventListener('click', (event) => {
+   togglePrint();
+   window.print();
+});
+
+/**
+ * Alterna o modo de impressão
+ */
+exitPrintMode.addEventListener('click', (event) => {
+   togglePrint();
+});
+
+/**
  * Ações para os botões da tarefa
  */
 document.addEventListener('click', (event) => {
@@ -463,28 +530,6 @@ btnCancelEdit.addEventListener('click', (event) => {
    event.preventDefault();
 
    toggleEditForm();
-});
-
-/**
- * Procurar tarefa
- */
-formSearch.addEventListener('submit', (event) => {
-   event.preventDefault();
-
-   let searchTxt = inputSearch.value;
-
-   rendersAllTasks(searchTxt);
-
-   inputSearch.focus();
-});
-
-/**
- * Filtrar tarefas
- */
-selectFilter.addEventListener('change', (event) => {
-   tempFilterValue = event.target.value;
-
-   rendersAllTasks();
 });
 
 // CARREGA AO INICIAR

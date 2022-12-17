@@ -3,7 +3,7 @@
    align-items: center;
    justify-content: center;
    position: fixed;
-   bottom: -40px;
+   bottom: -50px;
    left: calc(50% - var(--size-xs-sm));
    width: 0;
    height: 0;
@@ -15,16 +15,15 @@
    font-size: 150%;
 }
 #scroll-top button.btn-scroll-top {
-   bottom: 85px;
+   bottom: 90px;
    left: calc(50% - (calc(var(--size-xl) / 2)));
    width: var(--size-xl);
    height: var(--size-xl);
    visibility: visible;
-   opacity: 0.9;
+   opacity: 1;
 }
 #scroll-top button.btn-scroll-top:hover {
    animation: pulse-up 3s infinite;
-   opacity: 1;
 }
 
 @keyframes pulse-up {

@@ -36,8 +36,18 @@
       <title>Lista de Tarefas</title>
    </head>
    <body>
-      <div id="task-container">
-         <header>
+      <div class="flex-col-center hide">
+         <button
+            id="exit-print-mode"
+            class="btn-secondary"
+            title="Sair da Versão para Impressão"
+         >
+            <i class="fa-solid fa-circle-arrow-left"></i>Sair da Versão para
+            Impressão
+         </button>
+      </div>
+      <div id="task-container" class="shadow">
+         <header class="header-for-print">
             <h1 class="flex-col-center">
                <img
                   src="./images/logo-lista-de-tarefas.png"
@@ -55,72 +65,100 @@
          </header>
 
          <main>
-            <form id="form-add">
-               <label for="input-add">Adicione uma tarefa:</label>
-               <div class="form-control">
-                  <input
-                     type="text"
-                     id="input-add"
-                     placeholder="O que deseja anotar?"
-                     required
-                     maxlength="100"
-                     aria-required="true"
-                     aria-label="O que deseja anotar?"
-                  />
-                  <button type="submit" title="Adicionar tarefa">
-                     <i class="fa-solid fa-plus"></i>
-                  </button>
-               </div>
-               <div id="alert-add"></div>
-            </form>
-
-            <form id="form-edit" class="hide">
-               <label for="input-edit">Edite a tarefa:</label>
-               <div class="form-control">
-                  <input type="text" id="input-edit" maxlength="100" />
-                  <button type="submit" title="Confirmar edição">
-                     <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-               </div>
-               <div id="alert-edit"></div>
-               <button id="cancel-edit" title="Cancelar edição">
-                  Cancelar
-               </button>
-            </form>
-
-            <div id="toolbar">
-               <form id="form-search">
-                  <label for="input-search">Pesquisar:</label>
+            <section>
+               <form id="form-add">
+                  <label for="input-add">Adicione uma tarefa:</label>
                   <div class="form-control">
                      <input
                         type="text"
-                        id="input-search"
-                        placeholder="Buscar tarefa"
+                        id="input-add"
+                        placeholder="O que deseja anotar?"
+                        required
                         maxlength="100"
+                        aria-required="true"
+                        aria-label="O que deseja anotar?"
                      />
-
-                     <button title="Pesquisar">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                     <button type="submit" title="Adicionar tarefa">
+                        <i class="fa-solid fa-plus"></i>
                      </button>
                   </div>
+                  <div id="alert-add"></div>
                </form>
-               <form id="form-filter">
-                  <label for="select-filter">Filtrar:</label>
-                  <div class="form-control">
-                     <select name="select-filter" id="select-filter"></select>
-                  </div>
-               </form>
-            </div>
+            </section>
 
-            <div id="task-list-container">
-               <div id="task-list-info">
+            <section>
+               <form id="form-edit" class="hide">
+                  <label for="input-edit">Edite a tarefa:</label>
+                  <div class="form-control">
+                     <input type="text" id="input-edit" maxlength="100" />
+                     <button type="submit" title="Confirmar edição">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                     </button>
+                  </div>
+                  <div id="alert-edit"></div>
+                  <button
+                     id="cancel-edit"
+                     class="btn-primary"
+                     title="Cancelar edição"
+                  >
+                     Cancelar
+                  </button>
+               </form>
+            </section>
+
+            <section>
+               <div id="toolbar">
+                  <form id="form-search">
+                     <label for="input-search">Pesquisar:</label>
+                     <div class="form-control">
+                        <input
+                           type="text"
+                           id="input-search"
+                           placeholder="Buscar tarefa"
+                           maxlength="100"
+                        />
+                        <button title="Pesquisar">
+                           <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                     </div>
+                  </form>
+                  <form id="form-filter">
+                     <label for="select-filter">Filtrar:</label>
+                     <div class="form-control">
+                        <select
+                           name="select-filter"
+                           id="select-filter"
+                        ></select>
+                     </div>
+                  </form>
+               </div>
+            </section>
+
+            <section>
+               <div id="task-list-container">
                   <h2>
                      <i class="fa-solid fa-list-check"></i>Todas as tarefas
                   </h2>
-                  <p></p>
+                  <div id="task-list-info">
+                     <p></p>
+                     <button
+                        id="print-tasks"
+                        class="btn-primary"
+                        title="Imprimir lista"
+                     >
+                        Imprimir
+                     </button>
+                     <button
+                        id="save-task"
+                        class="btn-primary"
+                        title="Salvar lista em PDF"
+                     >
+                        Salvar
+                     </button>
+                  </div>
+                  <ul id="task-list"></ul>
                </div>
-               <ul id="task-list"></ul>
-            </div>
+            </section>
 
             <div id="scroll-top">
                <button title="Voltar para o topo">

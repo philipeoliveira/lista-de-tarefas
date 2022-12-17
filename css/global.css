@@ -65,8 +65,6 @@ body {
    padding: var(--size-lg) var(--size-md);
 }
 header {
-   display: grid;
-   grid-template-columns: 1fr 52px;
    padding-bottom: var(--size-md-lg);
    border-bottom: 1px dashed var(--color-text);
 }
@@ -77,7 +75,6 @@ header h1 img {
 main {
    display: flex;
    flex-direction: column;
-   gap: var(--size-md);
    margin: var(--size-sm) 0;
 }
 h2 {
@@ -88,7 +85,7 @@ h2 {
 h2 i {
    font-size: var(--size-md-lg);
    color: var(--color-primary);
-   margin-right: 12px;
+   margin-right: calc(var(--size-md) / 2);
 }
 h3 {
    color: var(--color-text-toggle);
@@ -98,7 +95,7 @@ h3 {
 h3 i {
    font-size: var(--size-sm-md);
    color: var(--color-primary);
-   margin-right: 10px;
+   margin-right: calc(var(--size-sm-md) / 2);
 }
 footer p {
    color: var(--color-secondary);
@@ -119,7 +116,7 @@ a:active {
 }
 a[target='_blank'] i {
    font-size: var(--size-xs-sm);
-   padding-left: 5px;
+   padding-left: calc(var(--size-xs) / 2);
 }
 
 /* FORM */
@@ -152,7 +149,8 @@ select:active {
 }
 label,
 select,
-button {
+button,
+a {
    cursor: pointer;
 }
 button {
@@ -179,12 +177,24 @@ button:hover i {
    transform: scale(1.1);
    transition: 0.2s;
 }
-form > button {
-   padding: var(--size-xs) var(--size-sm);
-   margin-top: var(--size-md);
-}
 
 /* ADDED GLOBALS */
+.flex-col-center {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+.hide {
+   display: none;
+}
+.shadow {
+   box-shadow: 0 0 5px var(--color-dark);
+}
+.header-for-print {
+   display: grid;
+   grid-template-columns: 1fr 52px;
+}
 .dark-theme {
    --color-bg-toggle: var(--color-dark);
    --color-text-toggle: var(--color-secondary);
@@ -195,7 +205,6 @@ form > button {
    position: relative;
    background-color: var(--color-bg-toggle);
    padding: var(--size-md-lg) var(--size-lg);
-   box-shadow: 0 0 5px var(--color-dark);
 }
 #task-container::before,
 #task-container::after {
@@ -235,18 +244,9 @@ form > button {
       );
    background-size: var(--size-sm);
 }
-.flex-col-center {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-}
-.hide {
-   display: none;
-}
 .form-control {
    display: flex;
-   align-items: center;
+   align-items: end;
    justify-content: center;
    gap: var(--size-xs);
    position: relative;
@@ -284,6 +284,9 @@ form > button {
 .theme-ball:hover {
    background-color: var(--color-hover);
 }
+#form-edit button {
+   margin-top: var(--size-sm);
+}
 #alert-add,
 #alert-edit,
 #alert-search {
@@ -295,11 +298,12 @@ form > button {
 #alert-search i {
    font-size: var(--size-sm);
    color: var(--color-primary);
-   margin-right: 6px;
+   margin-right: calc(var(--size-sm) / 2);
 }
 #toolbar {
    display: flex;
    gap: var(--size-lg);
+   margin: var(--size-sm) 0;
 }
 #form-search,
 #form-filter {
@@ -314,28 +318,32 @@ form > button {
 }
 #task-list-info {
    display: flex;
-   align-items: center;
+   align-items: end;
    justify-content: space-between;
-   padding: var(--size-sm) 0;
-   padding-bottom: var(--size-md);
+   padding-bottom: var(--size-sm);
    border-bottom: 1px dashed var(--color-secondary);
-   gap: var(--size-md);
+   gap: var(--size-xs);
 }
-#task-list-info h2,
+#task-list-container h2,
 #task-list-info p {
    animation: fade-in 700ms ease-in;
 }
 #task-list-info p {
+   flex: 1;
+   padding-top: var(--size-sm);
    font-weight: bold;
 }
 #task-list-info p span {
    font-weight: normal;
 }
+#task-list-info p i {
+   margin-right: calc(var(--size-xs) / 2);
+}
 .task {
    display: flex;
    align-items: center;
    justify-content: space-between;
-   padding: var(--size-sm) 0;
+   padding: var(--size-xs-sm) 0;
    border-bottom: 1px dashed var(--color-secondary);
    gap: var(--size-md);
    animation: render-task 700ms ease-in;
@@ -401,10 +409,22 @@ form > button {
    opacity: 0.5;
 }
 .done button,
-#cancel-edit {
+button.btn-primary {
    background-color: transparent;
    color: var(--color-primary);
    border: 1px solid var(--color-primary);
+}
+button.btn-primary,
+button.btn-secondary {
+   padding: calc(var(--size-xs) / 2) calc(var(--size-md) / 2);
+}
+#exit-print-mode {
+   position: absolute;
+   z-index: 500;
+   top: 10px;
+}
+#exit-print-mode i {
+   margin-right: calc(var(--size-sm-md) / 2);
 }
 
 /* ANIMATION */
