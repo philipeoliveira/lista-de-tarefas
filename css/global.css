@@ -522,12 +522,12 @@ button.btn-secondary,
 }
 
 /* MEDIA QUERY */
-@media (max-width: 400px) {
+@media screen and (max-width: 400px) {
    .task-list-btns {
       flex-wrap: wrap;
    }
 }
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
    h2 {
       font-size: var(--size-md);
    }
@@ -539,7 +539,7 @@ button.btn-secondary,
    }
 }
 
-@media (min-width: 481px) and (max-width: 689px) {
+@media screen and (min-width: 481px) and (max-width: 689px) {
    h2 {
       font-size: var(--size-md-lg);
    }
@@ -548,7 +548,7 @@ button.btn-secondary,
    }
 }
 
-@media (max-width: 689px) {
+@media screen and (max-width: 689px) {
    #toolbar {
       flex-direction: column;
       gap: var(--size-sm);
