@@ -550,7 +550,7 @@ button.btn-secondary,
 
 @media screen and (max-width: 689px) {
    body {
-      padding: var(--size-xs);
+      padding: calc(var(--size-md) / 2) var(--size-xs);
    }
    #toolbar {
       flex-direction: column;
