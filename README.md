@@ -4,7 +4,7 @@
 <hr>
 <h2>Descrição</h2>
 <p>Este projeto chama-se <strong>Lista de Tarefas</strong>. Uma aplicação que permite anotações de tarefas do cotidiano em forma de lista.</p>
-<p>Entre os recursos relacionado estão: Pesquisar, Filtrar, Imprimir, Exportar, Importar, Marcar como feita, Editar e Excluir tarefas.</p>
+<p>Entre os recursos relacionados estão: Pesquisar, Filtrar, Imprimir, Exportar, Importar, Marcar como feita, Editar e Excluir tarefas.</p>
 <hr>
 <h2>Tecnologias</h2>
 <p>As tecnologias utilizadas foram:</p>
