@@ -69,7 +69,7 @@ header {
    border-bottom: 1px dashed var(--color-text);
 }
 header h1 img {
-   width: 80%;
+   width: 90%;
    max-width: calc(var(--size-lg) * 10);
 }
 main {
@@ -120,13 +120,17 @@ a[target='_blank'] i {
 }
 
 /* FORM */
-label {
+label,
+.label {
    display: inline-block;
    font-size: var(--size-sm-md);
    margin: var(--size-xs) 0;
 }
 input::placeholder {
    color: var(--color-secondary);
+}
+input[type='file'] {
+   display: none;
 }
 input,
 select {
@@ -153,7 +157,8 @@ button,
 a {
    cursor: pointer;
 }
-button {
+button,
+.btn-label-file {
    min-width: var(--size-lg);
    min-height: var(--size-lg);
    background-color: var(--color-primary);
@@ -284,18 +289,44 @@ button:hover i {
 .theme-ball:hover {
    background-color: var(--color-hover);
 }
-#form-edit button {
+#form-edit,
+#form-import {
+   padding-bottom: var(--size-lg);
+   margin-bottom: var(--size-sm);
+   border-bottom: 1px dashed var(--color-secondary);
+}
+#form-edit button,
+#form-import button {
    margin-top: var(--size-sm);
+}
+#form-import h3 {
+   color: var(--color-primary);
+   font-size: calc(var(--size-xl) / 2);
+   font-weight: normal;
+   margin: var(--size-xs-sm) 0;
+}
+#form-import ol {
+   margin-bottom: var(--size-xs-sm);
+}
+#form-import ol li::before {
+   content: '\1F892';
+   color: var(--color-primary);
+   font-size: var(--size-sm-md);
+   margin-right: calc(var(--size-sm) / 3);
 }
 #alert-add,
 #alert-edit,
-#alert-search {
+#alert-search,
+#filename-import,
+#alert-import {
    line-height: var(--size-lg);
    color: var(--color-primary);
 }
 #alert-add i,
 #alert-edit i,
-#alert-search i {
+#alert-search i,
+#filename-import i,
+#alert-import i {
    font-size: var(--size-sm);
    color: var(--color-primary);
    margin-right: calc(var(--size-sm) / 2);
@@ -318,7 +349,7 @@ button:hover i {
 }
 #task-list-info {
    display: flex;
-   align-items: end;
+   align-items: flex-end;
    justify-content: space-between;
    padding-bottom: var(--size-sm);
    border-bottom: 1px dashed var(--color-secondary);
@@ -338,6 +369,10 @@ button:hover i {
 }
 #task-list-info p i {
    margin-right: calc(var(--size-xs) / 2);
+}
+.task-list-btns {
+   display: flex;
+   gap: var(--size-xs);
 }
 .task {
    display: flex;
@@ -409,14 +444,24 @@ button:hover i {
    opacity: 0.5;
 }
 .done button,
-button.btn-primary {
+button.btn-primary,
+.btn-label-file {
    background-color: transparent;
    color: var(--color-primary);
    border: 1px solid var(--color-primary);
 }
 button.btn-primary,
-button.btn-secondary {
+button.btn-secondary,
+.btn-label-file {
    padding: calc(var(--size-xs) / 2) calc(var(--size-md) / 2);
+}
+.btn-label-file {
+   cursor: pointer;
+   margin-right: var(--size-xs);
+}
+.btn-label-file:hover,
+.btn-label-file:focus {
+   transform: translateY(-2px);
 }
 #exit-print-mode {
    position: absolute;
@@ -473,5 +518,68 @@ button.btn-secondary {
    }
    100% {
       transform: translateX(0);
+   }
+}
+
+/* MEDIA QUERY */
+@media (max-width: 400px) {
+   .task-list-btns {
+      flex-wrap: wrap;
+   }
+}
+@media (max-width: 480px) {
+   h2 {
+      font-size: var(--size-md);
+   }
+   h2 i {
+      font-size: var(--size-sm-md);
+   }
+   h3 {
+      font-size: calc(var(--size-xl) / 2);
+   }
+}
+
+@media (min-width: 481px) and (max-width: 689px) {
+   h2 {
+      font-size: var(--size-md-lg);
+   }
+   h2 i {
+      font-size: var(--size-md);
+   }
+}
+
+@media (max-width: 689px) {
+   #toolbar {
+      flex-direction: column;
+      gap: var(--size-sm);
+   }
+   #form-search .form-control {
+      padding-right: 0;
+      border-right: none;
+   }
+   #task-list-info {
+      flex-direction: column;
+      align-items: flex-start;
+   }
+   #task-list-info p {
+      padding-top: var(--size-xs);
+   }
+   .task-list-btns {
+      margin: var(--size-xs) 0;
+   }
+   .task {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--size-xs-sm);
+      max-height: 100%;
+   }
+   .task-buttons {
+      position: absolute;
+      right: 0;
+   }
+   button,
+   .btn-label-file {
+      min-width: var(--size-md-lg);
+      min-height: var(--size-md-lg);
    }
 }

@@ -11,6 +11,14 @@ const inputEdit = document.querySelector('#input-edit');
 const alertEdit = document.querySelector('#alert-edit');
 const btnCancelEdit = document.querySelector('#cancel-edit');
 
+let fileImport;
+const formImport = document.querySelector('#form-import');
+const titleImport = document.querySelector('#title-import');
+const inputImport = document.querySelector('#input-import');
+const filenameImport = document.querySelector('#filename-import');
+const alertImport = document.querySelector('#alert-import');
+const btnCancelImport = document.querySelector('#cancel-import');
+
 const toolbar = document.querySelector('#toolbar');
 
 const formSearch = document.querySelector('#form-search');
@@ -19,10 +27,13 @@ const inputSearch = document.querySelector('#input-search');
 const formFilter = document.querySelector('#form-filter');
 const selectFilter = document.querySelector('#select-filter');
 
+let tasksFound;
+
 const taskListContainer = document.querySelector('#task-list-container');
 const taskListInfo = document.querySelector('#task-list-info');
 const printTasksButton = document.querySelector('#print-tasks');
-const saveTaskButton = document.querySelector('#save-task');
+const exportTaskButton = document.querySelector('#export-task');
+const importTaskButton = document.querySelector('#import-task');
 const taskList = document.querySelector('#task-list');
 const exitPrintMode = document.querySelector('#exit-print-mode');
 
@@ -36,7 +47,7 @@ let tempTaskTxt;
 let tempTaskId;
 let tempTaskIndex;
 
-// Renderiza tarefa em tela com data e hora, texto da tarefa e botões
+/* renderiza tarefa em tela com data e hora, texto da tarefa e botões */
 const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    // cria elemento para tarefa
    const createTaskEl = document.createElement('li');
@@ -75,13 +86,9 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    taskList.appendChild(createTaskEl);
 };
 
-/**
- * @desc Recebe todas as tarefas cadastradas e renderiza em tela em ordem decrescente
- */
+/* recebe todas as tarefas cadastradas e renderiza em tela em ordem decrescente */
 const rendersAllTasks = (searchTxt) => {
    clearRenderedTasks();
-
-   let tasksFound;
 
    // personaliza título e texto da mensagem do filtro
    let iconClass;
@@ -160,7 +167,7 @@ const rendersAllTasks = (searchTxt) => {
    }
 };
 
-// Obtém o index da tarefa armazenada através do id da tarefa clicada
+/* obtém o index da tarefa armazenada através do id da tarefa clicada */
 const getIndexById = (id) => {
    const getData = readData('tasks');
 
@@ -171,7 +178,7 @@ const getIndexById = (id) => {
    }
 };
 
-// Verifica se uma tarefa foi modifica
+/* verifica se uma tarefa foi modifica */
 const checkModifiedTask = (taskId, lastDateTimeTask) => {
    const createdWithId = taskId;
    const lastDateTime = dateTimeForId(lastDateTimeTask);
@@ -179,7 +186,7 @@ const checkModifiedTask = (taskId, lastDateTimeTask) => {
    return createdWithId != lastDateTime ? true : false;
 };
 
-// Mensagem de aviso que entra e sai na tarefa
+/* mensagem de aviso que entra e sai na tarefa */
 const messageInOutTask = (messageText, taskId) => {
    const renderedTasks = document.querySelectorAll('.task');
    const messageInOutTaskEl = document.createElement('span');
@@ -202,16 +209,14 @@ const messageInOutTask = (messageText, taskId) => {
    }
 };
 
-/**
- * @desc Remove todas as mensagens de aviso que entra e sai na tarefa
- */
+/* remove todas as mensagens de aviso que entra e sai na tarefa */
 const removeAllMessagesInOutTasks = () => {
    const allMessagesInOut = document.querySelectorAll('.task-message-in-out');
 
    allMessagesInOut && allMessagesInOut.forEach((task) => task.remove());
 };
 
-// substitui o título das tarefas
+/* substitui o título das tarefas */
 const replaceTitle = (iconClass, titleText, listDetails) => {
    const currentTitle = document.querySelector('#task-list-container h2');
    const newTitle = document.createElement('h2');
@@ -226,14 +231,14 @@ const replaceTitle = (iconClass, titleText, listDetails) => {
    taskListInfo.replaceChild(newDetails, currentDetails);
 };
 
-// verifica se o texto do total de tarefas retornará no singular ou plural
+/* verifica se o texto do total de tarefas retornará no singular ou plural */
 const handleTotalTasksFound = (tempTotalTasksFound) => {
    return tempTotalTasksFound <= 1
       ? `<i class="fa-solid fa-location-crosshairs"></i> ${tempTotalTasksFound} tarefa localizada`
       : `<i class="fa-solid fa-location-crosshairs"></i> ${tempTotalTasksFound} tarefas localizadas`;
 };
 
-// Cria os botões para a tarefa
+/* cria os botões para a tarefa */
 const createTaskButtons = (taskDone) => {
    // cria lista para botões
    const taskBtns = document.createElement('ul');
@@ -272,16 +277,14 @@ const createTaskButtons = (taskDone) => {
    return taskBtns;
 };
 
-/**
- * @desc Limpa as tarefas já renderizadas na tela
- */
+/* limpa as tarefas já renderizadas na tela */
 const clearRenderedTasks = () => {
    const renderedTasks = document.querySelectorAll('.task');
 
    renderedTasks && renderedTasks.forEach((task) => task.remove());
 };
 
-// Remove a mensagem de aviso quando não houver tarefa cadastrada e, se necessário, insere outra mensagem no lugar
+/* remove a mensagem de aviso quando não houver tarefa cadastrada e, se necessário, insere outra mensagem no lugar */
 const replaceMessageNoTaskRegistered = (iconClass, messageTxt) => {
    const currentMessage = document.querySelector('#message-for-no-task');
    currentMessage && currentMessage.remove();
@@ -303,9 +306,7 @@ const replaceMessageNoTaskRegistered = (iconClass, messageTxt) => {
    taskListContainer.insertBefore(newMessage, taskList);
 };
 
-/**
- * @desc Alterna entre mostrar o formulário de edição de tarefas ou todos os outros
- */
+/* alterna entre mostrar o formulário de edição de tarefas ou todos os outros */
 const toggleEditForm = () => {
    formAdd.classList.toggle('hide');
    formEdit.classList.toggle('hide');
@@ -313,9 +314,7 @@ const toggleEditForm = () => {
    taskListContainer.classList.toggle('hide');
 };
 
-/**
- * @desc Alterna entre mostrar a página com a versão para impressão ou voltar para página completa
- */
+/* alterna entre mostrar a página com a versão para impressão ou voltar para página completa */
 const togglePrint = () => {
    taskContainer.classList.toggle('shadow');
    themeForm.parentNode.classList.toggle('header-for-print');
@@ -323,7 +322,8 @@ const togglePrint = () => {
    formAdd.classList.toggle('hide');
    toolbar.parentNode.classList.toggle('hide');
    printTasksButton.classList.toggle('hide');
-   saveTaskButton.classList.toggle('hide');
+   exportTaskButton.classList.toggle('hide');
+   importTaskButton.classList.toggle('hide');
    scrollTop.classList.toggle('hide');
 
    const allTaskButtonLists = document.querySelectorAll('.task ul');
@@ -335,10 +335,18 @@ const togglePrint = () => {
    exitPrintMode.parentNode.classList.toggle('hide');
 };
 
-// EVENTOS
-/**
- * Adiciona tarefa
- */
+/* alterna entre mostrar o formulário para importar a lista de tarefas ou todos os outros */
+const toggleImportFile = () => {
+   formAdd.classList.toggle('hide');
+   titleImport.classList.toggle('hide');
+   formImport.classList.toggle('hide');
+   toolbar.parentNode.classList.toggle('hide');
+   taskListContainer.classList.toggle('hide');
+   filenameImport.innerText = '';
+   alertImport.innerText = '';
+};
+
+/* adiciona tarefa */
 formAdd.addEventListener('submit', (event) => {
    event.preventDefault();
 
@@ -374,9 +382,7 @@ formAdd.addEventListener('submit', (event) => {
    }
 });
 
-/**
- * Edita uma tarefa
- */
+/* edita uma tarefa */
 formEdit.addEventListener('submit', (event) => {
    event.preventDefault();
 
@@ -417,9 +423,7 @@ formEdit.addEventListener('submit', (event) => {
    }
 });
 
-/**
- * Procurar tarefa
- */
+/* procurar tarefa */
 formSearch.addEventListener('submit', (event) => {
    event.preventDefault();
 
@@ -430,37 +434,104 @@ formSearch.addEventListener('submit', (event) => {
    inputSearch.focus();
 });
 
-/**
- * Filtrar tarefas
- */
+/* filtrar tarefas */
 selectFilter.addEventListener('change', (event) => {
    tempFilterValue = event.target.value;
 
    rendersAllTasks();
 });
 
-/**
- * Imprimir tarefas
- */
+/* imprimir tarefas */
 printTasksButton.addEventListener('click', (event) => {
    togglePrint();
    window.print();
 });
 
-/**
- * Alterna o modo de impressão
- */
+/* alterna o modo de impressão */
 exitPrintMode.addEventListener('click', (event) => {
    togglePrint();
 });
 
-/**
- * Ações para os botões da tarefa
- */
+/* exporta arquivo JSON com a lista de tarefas */
+exportTaskButton.addEventListener('click', (event) => {
+   const tasksJson = JSON.stringify(tasksFound);
+   exportFile(
+      tasksJson,
+      `lista-de-tarefas-${dateTimeForId(currentDateTimeFormatted())}`,
+      'application/json'
+   );
+});
+
+/* abre formulário para importar lista de tarefas */
+importTaskButton.addEventListener('click', (event) => {
+   toggleImportFile();
+});
+
+/* obtém o nome do arquivo do input file para importar lista de tarefas */
+inputImport.addEventListener('change', (event) => {
+   if (inputImport.files[0]) {
+      fileImport = inputImport.files[0];
+
+      filenameImport.innerText = '';
+      alertImport.innerText = '';
+
+      createMessage(
+         filenameImport,
+         'beforeend',
+         '<i class="fa-solid fa-file-import"></i>',
+         fileImport.name
+      );
+   }
+});
+
+/* importa arquivo JSON com a lista de tarefas para o localStorage */
+formImport.addEventListener('submit', (event) => {
+   event.preventDefault();
+
+   let fileReader = new FileReader();
+
+   if (
+      inputImport.files[0] &&
+      fileExtension(inputImport.files[0].name) === 'json'
+   ) {
+      fileImport = inputImport.files[0];
+
+      fileReader.onload = function () {
+         // converte o arquivo json recebido, converte em string e importa para localStorage
+         let parsedJSON = JSON.parse(fileReader.result);
+         importFile('tasks', parsedJSON);
+
+         rendersAllTasks();
+      };
+
+      fileReader.readAsText(fileImport);
+
+      inputImport.value = '';
+
+      toggleImportFile();
+   } else if (!alertImport.hasChildNodes()) {
+      // só exibe a mensagem se não estiver exibida
+      createMessage(
+         alertImport,
+         'beforeend',
+         '<i class="fa-solid fa-circle-exclamation"></i>',
+         'Selecione um arquivo JSON previamente exportado deste sistema'
+      );
+   }
+});
+
+/* botão para cancelar a importação da lista de tarefas */
+btnCancelImport.addEventListener('click', (event) => {
+   event.preventDefault();
+
+   document.location.reload(true);
+});
+
+/* ações para os botões da tarefa */
 document.addEventListener('click', (event) => {
    const taskEl = event.target.closest('.task');
 
-   /* Finaliza ou recupera a tarefa */
+   /* finaliza ou recupera a tarefa */
    if (event.target.classList.contains('finish-task')) {
       const taskId = taskEl.dataset.taskId;
       const lastDateTimeTask = currentDateTimeFormatted();
@@ -483,7 +554,7 @@ document.addEventListener('click', (event) => {
       messageInOutTask('atualizada', taskId);
    }
 
-   /* Abre form para editar a tarefa */
+   /* abre form para editar a tarefa */
    if (event.target.classList.contains('edit-task')) {
       tempTaskTxt = taskEl.querySelector('h3').innerText;
       inputEdit.value = tempTaskTxt;
@@ -497,7 +568,7 @@ document.addEventListener('click', (event) => {
       toggleEditForm();
    }
 
-   /* Deleta a tarefa */
+   /* deleta a tarefa */
    if (event.target.classList.contains('delete-task')) {
       // obtém o id da tarefa clicada
       tempTaskId = taskEl.dataset.taskId;
@@ -523,16 +594,14 @@ document.addEventListener('click', (event) => {
    }
 });
 
-/**
- * Botão para cancelar a edição da tarefa
- */
+/* botão para cancelar a edição da tarefa */
 btnCancelEdit.addEventListener('click', (event) => {
    event.preventDefault();
 
    toggleEditForm();
 });
 
-// CARREGA AO INICIAR
+// ao carregar a página
 window.onload = () => {
    createSelectOptions(filterOptions);
    rendersAllTasks();

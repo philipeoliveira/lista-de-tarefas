@@ -107,6 +107,46 @@
             </section>
 
             <section>
+               <h2 class="label hide" id="title-import">
+                  Importar lista de tarefas:
+               </h2>
+               <form id="form-import" class="hide">
+                  <label
+                     for="input-import"
+                     class="btn-label-file"
+                     tabindex="0"
+                     title="Escolher um arquivo JSON com a lista de tarefas"
+                     >Clique aqui para importar</label
+                  >
+                  <input type="file" id="input-import" accept=".json" />
+                  <button type="submit" title="Confirmar importação">
+                     <i class="fa-solid fa-upload"></i>
+                  </button>
+                  <div id="filename-import"></div>
+                  <div id="alert-import"></div>
+                  <h3>Observações:</h3>
+                  <ol>
+                     <li>
+                        Para correta compatibilidade, a lista de tarefas
+                        importada deve ter sido anteriormente exportada deste
+                        mesmo sistema.
+                     </li>
+                     <li>
+                        Ao importar uma lista de tarefas, todas as tarefas
+                        atuais serão substituídas.
+                     </li>
+                  </ol>
+                  <button
+                     id="cancel-import"
+                     class="btn-primary"
+                     title="Cancelar importação"
+                  >
+                     Cancelar
+                  </button>
+               </form>
+            </section>
+
+            <section>
                <div id="toolbar">
                   <form id="form-search">
                      <label for="input-search">Pesquisar:</label>
@@ -141,20 +181,29 @@
                   </h2>
                   <div id="task-list-info">
                      <p></p>
-                     <button
-                        id="print-tasks"
-                        class="btn-primary"
-                        title="Imprimir lista"
-                     >
-                        Imprimir
-                     </button>
-                     <button
-                        id="save-task"
-                        class="btn-primary"
-                        title="Salvar lista em PDF"
-                     >
-                        Salvar
-                     </button>
+                     <div class="task-list-btns">
+                        <button
+                           id="print-tasks"
+                           class="btn-primary"
+                           title="Imprimir lista de tarefas"
+                        >
+                           Imprimir
+                        </button>
+                        <button
+                           id="export-task"
+                           class="btn-primary"
+                           title="Salvar lista de tarefas no formato JSON"
+                        >
+                           Exportar
+                        </button>
+                        <button
+                           id="import-task"
+                           class="btn-primary"
+                           title="Importar lista de tarefas"
+                        >
+                           Importar
+                        </button>
+                     </div>
                   </div>
                   <ul id="task-list"></ul>
                </div>

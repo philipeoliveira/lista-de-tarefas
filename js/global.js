@@ -7,6 +7,15 @@ for (let i = 0; i < targetBlank.length; i++) {
    targetBlank[i].innerHTML +=
       '<i class="fa-solid fa-arrow-up-right-from-square"></i>';
 }
+/**
+ * @desc Recebe o nome de um arquivo, remove e retorna somente o tipo dele (extensão do arquivo)
+ * @param {string} filename String com o nome completo (com extensão) do arquivo
+ * @return {string} String com o nome do tipo do arquivo
+ */
+const fileExtension = (filename) => {
+   const extension = filename.split('.').pop();
+   return extension;
+};
 
 /**
  * @desc Cria mensagem de texto
@@ -150,4 +159,45 @@ const descendingOrder = (array) => {
    });
 
    return array;
+};
+
+/**
+ * @desc Cria e faz download de arquivo com os dados recebidos
+ * @param {array} data Object com os dados a serem incluídos dentro do arquivo
+ * @param {string} filename String para o nome do arquivo
+ * @param {string} type String com tipo do arquivo
+ */
+const exportFile = (data, filename, type) => {
+   const file = new Blob([data], { type: type });
+
+   // para navegadores mais modernos
+   if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(file, filename);
+      return;
+   }
+
+   // para navegadores antigos
+   const a = document.createElement('a');
+   const url = URL.createObjectURL(file);
+
+   a.href = url;
+   a.download = filename;
+
+   document.body.appendChild(a);
+
+   a.click();
+
+   setTimeout(function () {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+   }, 0);
+};
+
+/**
+ * @desc Importa de arquivo JSON uma lista de tarefas para o localStorage
+ * @param {string} keyName String que será o nome da chave
+ * @param {Array<object>} json Array de Objetos vinda do input file
+ */
+const importFile = (keyName, json) => {
+   localStorage.setItem(keyName, JSON.stringify(json));
 };
