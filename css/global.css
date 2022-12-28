@@ -309,7 +309,7 @@ button:hover i {
    margin-bottom: var(--size-xs-sm);
 }
 #form-import ol li::before {
-   content: '\1F892';
+   content: '•';
    color: var(--color-primary);
    font-size: var(--size-sm-md);
    margin-right: calc(var(--size-sm) / 3);
