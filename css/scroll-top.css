@@ -42,3 +42,8 @@
       transform: translateY(0);
    }
 }
+@media screen and (max-width: 689px) {
+   #scroll-top button.btn-scroll-top {
+      bottom: 75px;
+   }
+}
