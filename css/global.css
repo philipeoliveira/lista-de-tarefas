@@ -436,7 +436,7 @@ button:hover i {
    gap: var(--size-xs);
 }
 .done .task-date-time {
-   opacity: 0.5;
+   text-decoration: line-through;
 }
 .done h3 {
    font-weight: normal;
