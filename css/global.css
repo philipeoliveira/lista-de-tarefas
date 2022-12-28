@@ -552,8 +552,13 @@ button.btn-secondary,
    body {
       padding: calc(var(--size-md) / 2) var(--size-xs);
    }
+   button,
+   .btn-label-file {
+      min-width: var(--size-md-lg);
+      min-height: var(--size-md-lg);
+   }
    #exit-print-mode {
-      top: 3px;
+      top: 2px;
    }
    #toolbar {
       flex-direction: column;
@@ -576,16 +581,21 @@ button.btn-secondary,
    .task {
       flex-direction: column;
       align-items: flex-start;
-      gap: var(--size-xs-sm);
+      padding: var(--size-xs-sm) 0;
+      gap: var(--size-xs);
       max-height: 100%;
    }
    .task-buttons {
       position: absolute;
+      top: calc(var(--size-sm-md) / 2);
       right: 0;
    }
-   button,
-   .btn-label-file {
-      min-width: var(--size-md-lg);
-      min-height: var(--size-md-lg);
+   .task-buttons button {
+      min-width: var(--size-md);
+      min-height: var(--size-md);
+      border-radius: calc(var(--size-xs-sm) / 2);
+   }
+   .task-buttons button i {
+      font-size: calc(var(--size-md) / 2);
    }
 }

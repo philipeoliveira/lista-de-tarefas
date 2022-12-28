@@ -31,6 +31,8 @@ let tasksFound;
 
 const taskListContainer = document.querySelector('#task-list-container');
 const taskListInfo = document.querySelector('#task-list-info');
+const taskListBtns = document.querySelector('#task-list-btns');
+const newTaskButton = document.querySelector('#new-task');
 const printTasksButton = document.querySelector('#print-tasks');
 const exportTaskButton = document.querySelector('#export-task');
 const importTaskButton = document.querySelector('#import-task');
@@ -68,7 +70,7 @@ const renderTask = (taskId, lastDateTimeTask, taskTxt, taskDone) => {
    createTaskEl.appendChild(
       dateTimeForText(
          lastDateTimeTask,
-         '<br>',
+         getWindowWidth() < 689 ? ' - ' : '<br>',
          'task-date-time',
          checkModified === true ? 'Modificada' : 'Salva'
       )
@@ -321,9 +323,8 @@ const togglePrint = () => {
    themeForm.classList.toggle('hide');
    formAdd.classList.toggle('hide');
    toolbar.parentNode.classList.toggle('hide');
-   printTasksButton.classList.toggle('hide');
-   exportTaskButton.classList.toggle('hide');
-   importTaskButton.classList.toggle('hide');
+   taskListBtns.classList.toggle('task-list-btns');
+   taskListBtns.classList.toggle('hide');
    scrollTop.classList.toggle('hide');
 
    const allTaskButtonLists = document.querySelectorAll('.task ul');
@@ -346,6 +347,18 @@ const toggleImportFile = () => {
    alertImport.innerText = '';
 };
 
+/* faz a rolagem da página para a lista de tarefas */
+const scrollToTaskList = () => {
+   let element = document.getElementById('task-list-container');
+   let elementCoordinates = element.getBoundingClientRect();
+   let elementCoordinatesTop = elementCoordinates.top;
+
+   window.scrollTo({
+      top: elementCoordinatesTop,
+      behavior: 'smooth',
+   });
+};
+
 /* adiciona tarefa */
 formAdd.addEventListener('submit', (event) => {
    event.preventDefault();
@@ -365,11 +378,12 @@ formAdd.addEventListener('submit', (event) => {
          taskDone,
       });
 
+      scrollToTaskList();
       rendersAllTasks();
       messageInOutTask('nova', taskId);
 
       inputAdd.value = '';
-      inputAdd.focus();
+      inputAdd.blur();
       alertAdd.innerText = '';
    } else if (!alertAdd.hasChildNodes()) {
       // só exibe a mensagem se não estiver exibida
@@ -429,6 +443,7 @@ formSearch.addEventListener('submit', (event) => {
 
    let searchTxt = inputSearch.value;
 
+   scrollToTaskList();
    rendersAllTasks(searchTxt);
 
    inputSearch.focus();
@@ -438,7 +453,18 @@ formSearch.addEventListener('submit', (event) => {
 selectFilter.addEventListener('change', (event) => {
    tempFilterValue = event.target.value;
 
+   scrollToTaskList();
    rendersAllTasks();
+});
+
+/* ir para o campo de adicionar tarefa */
+newTaskButton.addEventListener('click', (event) => {
+   window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+   });
+
+   inputAdd.focus();
 });
 
 /* imprimir tarefas */
@@ -590,7 +616,7 @@ document.addEventListener('click', (event) => {
          taskEl.remove();
 
          rendersAllTasks();
-      }, 400);
+      }, 350);
    }
 });
 
