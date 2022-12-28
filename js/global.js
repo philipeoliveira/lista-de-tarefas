@@ -18,6 +18,19 @@ const fileExtension = (filename) => {
 };
 
 /**
+ * @desc Obtém a largura da janela/browser
+ * @return {number} Number com o tamanho da janela/browser
+ */
+const getWindowWidth = () => {
+   const windowWidth =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
+
+   return windowWidth;
+};
+
+/**
  * @desc Cria mensagem de texto
  * @param {object} targetEl Elemento HTML selecionado com JS que receberá a mensagem
  * @param {string} position String com uma das posições da função insertAdjacentHTML()
