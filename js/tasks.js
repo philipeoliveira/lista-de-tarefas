@@ -445,8 +445,6 @@ formSearch.addEventListener('submit', (event) => {
 
    scrollToTaskList();
    rendersAllTasks(searchTxt);
-
-   inputSearch.focus();
 });
 
 /* filtrar tarefas */
