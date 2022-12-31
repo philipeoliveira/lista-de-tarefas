@@ -560,6 +560,9 @@ button.btn-secondary,
    #exit-print-mode {
       top: 2px;
    }
+   #task-container {
+      padding: var(--size-md) var(--size-sm-md);
+   }
    #toolbar {
       flex-direction: column;
       gap: var(--size-sm);
