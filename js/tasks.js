@@ -453,7 +453,6 @@ formSearch.addEventListener('submit', (event) => {
 selectFilter.addEventListener('change', (event) => {
    tempFilterValue = event.target.value;
 
-   scrollToTaskList();
    rendersAllTasks();
 });
 
