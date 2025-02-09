@@ -1,6 +1,6 @@
 <h1>Projeto Lista de Tarefas</h1>
-<img src="/.github/cover-lista-de-tarefas-01.png/" alt="Imagem da página com a lista de tarefas" />
-<img src="/.github/cover-lista-de-tarefas-02.png/" alt="Imagem da página de importação da lista de tarefas" />
+<img src="/.github/cover-01.png/" alt="Imagem da página com a lista de tarefas" />
+<img src="/.github/cover-02.png/" alt="Imagem da página de importação da lista de tarefas" />
 <hr>
 <h2>Descrição</h2>
 <p>Este projeto chama-se <strong>Lista de Tarefas</strong>. Uma aplicação que permite anotações de tarefas do cotidiano em forma de lista.</p>
